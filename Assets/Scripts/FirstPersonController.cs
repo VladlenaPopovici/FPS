@@ -7,10 +7,28 @@ using UnityEngine;
 public class FirstPersonController : MonoBehaviour
 {
     //References
+    [Header("References")]
     [SerializeField] private Transform _cameraTransform;
     [SerializeField] private CharacterController _characterController;
+
+    //Gravity & Jumping
+    [Header("Gravity and Jumping")] [SerializeField]
+    private float _stickToGroundForce = 10;
+    [SerializeField] private float _gravity = 10;
+    [SerializeField] private float _jumpForce = 5;
+
+    private float _verticalVelocity;
+
+    //Gravity check
+    [Header("Ground check")] [SerializeField]
+    private Transform _groundCheck;
+    [SerializeField] private LayerMask _groundLayers;
+    [SerializeField] private float _groundCheckRadius;
+
+    private bool _isGrounded;
     
     //Player settings
+    [Header("Player Settings")]
     [SerializeField] private float _cameraSensitivity;
     [SerializeField] private float _moveSpeed;
     [SerializeField] private float _moveInputDeadZone;
@@ -44,6 +62,8 @@ public class FirstPersonController : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        VerticalMovement();
+
         //Handles input
         GetTouchInput();
 
@@ -60,6 +80,11 @@ public class FirstPersonController : MonoBehaviour
             Debug.Log("Moving");
             Move();
         }
+    }
+
+    private void FixedUpdate()
+    {
+        _isGrounded = Physics.CheckSphere(_groundCheck.position, _groundCheckRadius, _groundLayers);
     }
 
     private void GetTouchInput()
@@ -146,10 +171,36 @@ public class FirstPersonController : MonoBehaviour
         if (_moveInput.sqrMagnitude <= _moveInputDeadZone) return;
         
         //Multiply the normalized direction by the speed
-        Vector2 movementDirection = _moveInput.normalized * _moveSpeed * Time.deltaTime;
+        Vector2 movementDirection = _moveInput.normalized * (_moveSpeed * Time.deltaTime);
         
         //Move relatively to the local transform's direction
         _characterController.Move(transform.right * movementDirection.x + transform.forward * movementDirection.y);
+       
+    }
+
+    private void VerticalMovement()
+    {
+        //Calculate y (vertical) movement
+        if (_isGrounded && _verticalVelocity <= 0)
+        {
+            _verticalVelocity = -_stickToGroundForce * Time.deltaTime;
+        }
+        else
+        {
+            _verticalVelocity -= _gravity * Time.deltaTime;
+        }
+        
+        //Apply vertical (y) movement
+        Vector3 verticalMovement = transform.up * _verticalVelocity;
+        _characterController.Move(verticalMovement * Time.deltaTime);
+    }
+
+    public void Jump()
+    {
+        if (!_isGrounded)
+        {
+            _verticalVelocity = _jumpForce;
+        }
     }
 }
 
