@@ -44,6 +44,8 @@ public class FirstPersonController : MonoBehaviour
     //Player movement
     private Vector2 _moveTouchStartPosition;
     private Vector2 _moveInput;
+
+    private CameraBobbing _cameraBobbing;
     
     // Start is called before the first frame update
     void Start()
@@ -57,6 +59,8 @@ public class FirstPersonController : MonoBehaviour
         
         //calculate the movement input dead zone
         _moveInputDeadZone = Mathf.Pow(Screen.height / _moveInputDeadZone, 2);
+
+        _cameraBobbing = GetComponent<CameraBobbing>();
     }
 
     // Update is called once per frame
@@ -79,6 +83,10 @@ public class FirstPersonController : MonoBehaviour
             //Only move if left finger is being tracked
             Debug.Log("Moving");
             Move();
+        }
+        else
+        {
+            _cameraBobbing.isWalking = false;
         }
     }
 
@@ -168,7 +176,13 @@ public class FirstPersonController : MonoBehaviour
     private void Move()
     {
         //Don't move if the touch delta is shorter than the deigned dead zone
-        if (_moveInput.sqrMagnitude <= _moveInputDeadZone) return;
+        if (_moveInput.sqrMagnitude <= _moveInputDeadZone)
+        {
+            _cameraBobbing.isWalking = false;
+            return;
+        }
+
+        _cameraBobbing.isWalking = true;
         
         //Multiply the normalized direction by the speed
         Vector2 movementDirection = _moveInput.normalized * (_moveSpeed * Time.deltaTime);
