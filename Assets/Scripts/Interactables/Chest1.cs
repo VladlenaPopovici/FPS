@@ -8,12 +8,13 @@ public class Chest1 : Interactable
     [Header("Settings")]
     [SerializeField] private Animator _animator;
     [SerializeField] private string _animParam = "open";
-    [SerializeField] private Button _button;
+    [SerializeField] private Image _button;
+    [SerializeField] private Canvas _playerUI;
+    [SerializeField] private Canvas _chestInventoryUI;
+    [SerializeField] private Canvas _playerInventoryUI;
+    [SerializeField] private Button _closeInventory;
     
     private bool _isClicked = true;
-    
-    //TODO Should be count in script where will be logic of inventory
-    private float _waitTime = 3;
     
     // Start is called before the first frame update
     void Start()
@@ -35,8 +36,22 @@ public class Chest1 : Interactable
     
     private IEnumerator OpenChest()
     {
+        
         _animator.SetFloat(_animParam, 1);
-        yield return new WaitForSeconds(_waitTime);
+        yield return new WaitForSeconds(0.5f);
+        Time.timeScale = 0;
+        _playerUI.gameObject.SetActive(false);
+        _chestInventoryUI.gameObject.SetActive(true);
+        
+        yield return null;
+    }
+
+    public void CloseAll()
+    {        
+        _playerUI.gameObject.SetActive(true);
+        _chestInventoryUI.gameObject.SetActive(false);
         _animator.SetFloat(_animParam, 0);
-    }    
+
+        Time.timeScale = 1;
+    }
 }
