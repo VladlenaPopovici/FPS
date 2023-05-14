@@ -74,14 +74,14 @@ public class FirstPersonController : MonoBehaviour
         if (_rightFingerId != -1)
         {
             //Only look around if right finger is being tracking
-            Debug.Log("Rotating");
+            //Debug.Log("Rotating");
             LookAround();
         }
 
         if (_leftFingerId != -1)
         {
             //Only move if left finger is being tracked
-            Debug.Log("Moving");
+            //Debug.Log("Moving");
             Move();
         }
         else
@@ -118,7 +118,7 @@ public class FirstPersonController : MonoBehaviour
                     {
                         //Start tracking the right finger if it was not tracking before
                         _rightFingerId = touch.fingerId;
-                        Debug.Log("Tracking right finger");
+                        //Debug.Log("Tracking right finger");
                     }
                     
                     break;
@@ -129,12 +129,12 @@ public class FirstPersonController : MonoBehaviour
                     {
                         //Stop tracking the left finger
                         _leftFingerId = -1;
-                        Debug.Log("Stop tracking left finger");
+                        //Debug.Log("Stop tracking left finger");
                     } else if (touch.fingerId == _rightFingerId)
                     {
                         //Stop tracking the right finger   
                         _rightFingerId = -1;
-                        Debug.Log("Stop tracking right finger");
+                        //Debug.Log("Stop tracking right finger");
                     }
 
                     break;
