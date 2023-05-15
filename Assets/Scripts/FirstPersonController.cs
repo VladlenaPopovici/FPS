@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Runtime.CompilerServices;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class FirstPersonController : MonoBehaviour
 {
@@ -47,9 +48,17 @@ public class FirstPersonController : MonoBehaviour
 
     private CameraBobbing _cameraBobbing;
     
+    //Player health
+    [SerializeField] private Image _healtBar;
+    
+    private const float _maxHealth = 100;
+    private float _currentHealth;
+    
     // Start is called before the first frame update
     void Start()
     {
+        _currentHealth = _maxHealth;
+        
         //ID -1 means that the finger does not touch the screen
         _leftFingerId = -1;
         _rightFingerId = -1;
@@ -215,6 +224,16 @@ public class FirstPersonController : MonoBehaviour
         {
             _verticalVelocity = _jumpForce;
         }
+    }
+    
+    public void TakeDamage(float damage)
+    {
+        Debug.Log("Taking damage " + damage);
+        _currentHealth -= damage;
+        float newAmount = _currentHealth / _maxHealth;
+        //TODO if current health <= 0 game over canvas set active true and game time set to 0
+        Debug.Log(newAmount);
+        _healtBar.fillAmount = newAmount;
     }
 }
 
