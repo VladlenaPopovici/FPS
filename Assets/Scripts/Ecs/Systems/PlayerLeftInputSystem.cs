@@ -37,8 +37,16 @@ namespace Ecs
                     break;
                 case TouchPhase.Moved:
                     var touchDelta = touch.position - _touchStartPosition;
-                    _moveX = touchDelta.x;
-                    _moveZ = touchDelta.y;
+                    if (touch.position.x < Screen.width / 2)
+                    {
+                        _moveX = touchDelta.x;
+                        _moveZ = touchDelta.y;
+                    }
+                    else
+                    {
+                        _moveX = 0f;
+                        _moveZ = 0f;
+                    }
                     break;
                 case TouchPhase.Ended:
                 case TouchPhase.Canceled:

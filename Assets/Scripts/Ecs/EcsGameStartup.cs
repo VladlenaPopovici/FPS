@@ -40,7 +40,10 @@ public sealed class EcsGameStartup : MonoBehaviour
     {
         systems
             .Add(new PlayerInputSystem())
-            .Add(new MovementSystem());
+            .Add(new MovementSystem())
+            .Add(new PlayerRightInputSystem())
+            .Add(new PlayerLookSystem())
+            ;
     }
 
     // Update is called once per frame
