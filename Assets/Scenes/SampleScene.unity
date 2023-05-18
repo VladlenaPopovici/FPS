@@ -359,7 +359,7 @@ MonoBehaviour:
   value:
     cameraTransform: {fileID: 963194228}
     direction: {x: 0, y: 0}
-    mouseSensitivity: 1
+    mouseSensitivity: 0.02
 --- !u!1 &705507993
 GameObject:
   m_ObjectHideFlags: 0

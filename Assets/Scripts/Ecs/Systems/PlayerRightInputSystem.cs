@@ -14,14 +14,14 @@ namespace Ecs
         {
             GetAxis();
             ClampAxis();
-            
+
             foreach (var i in lookFilter)
             {
-                 ref var lookDirection = ref lookFilter.Get2(i);
-                 ref var direction = ref lookDirection.direction;
+                ref var lookDirection = ref lookFilter.Get2(i);
+                ref var direction = ref lookDirection.direction;
 
-                 direction.x = _axisX;
-                 direction.y = _axisY;
+                direction.x = _axisX;
+                direction.y = _axisY;
             }
         }
 
@@ -33,23 +33,26 @@ namespace Ecs
         private void GetAxis()
         {
             if (Input.touchCount <= 0) return;
-            
-            var touch = Input.GetTouch(0);
-            Debug.Log(touch.phase);
 
-            switch (touch.phase)
+            for (int i = 0; i < Input.touchCount; i++)
             {
-                case TouchPhase.Began:
-                    _touchStartPosition = touch.position;
-                    break;
-                case TouchPhase.Moved:
-                    var touchDelta = touch.position - _touchStartPosition;
-                    if (touch.position.x > Screen.width / 2)
-                    {
-                        _axisX = touchDelta.x;
-                        _axisY = touchDelta.y;
-                    }
-                    break;
+                var touch = Input.GetTouch(i);
+
+                switch (touch.phase)
+                {
+                    case TouchPhase.Began:
+                        _touchStartPosition = touch.position;
+                        break;
+                    case TouchPhase.Moved:
+                        var touchDelta = touch.position - _touchStartPosition;
+                        if (touch.position.x > Screen.width / 2)
+                        {
+                            _axisX = touchDelta.x;
+                            _axisY = touchDelta.y;
+                        }
+
+                        break;
+                }
             }
         }
     }

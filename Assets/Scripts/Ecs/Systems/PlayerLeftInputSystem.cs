@@ -27,33 +27,37 @@ namespace Ecs
         private void SetDirection()
         {
             if (Input.touchCount <= 0) return;
-            
-            var touch = Input.GetTouch(0);
 
-            switch (touch.phase)
+            for (int i = 0; i < Input.touchCount; i++)
             {
-                case TouchPhase.Began:
-                    _touchStartPosition = touch.position;
-                    break;
-                case TouchPhase.Moved:
-                    var touchDelta = touch.position - _touchStartPosition;
-                    if (touch.position.x < Screen.width / 2)
-                    {
-                        _moveX = touchDelta.x;
-                        _moveZ = touchDelta.y;
-                    }
-                    else
-                    {
+                var touch = Input.GetTouch(i);
+
+                switch (touch.phase)
+                {
+                    case TouchPhase.Began:
+                        _touchStartPosition = touch.position;
+                        break;
+                    case TouchPhase.Moved:
+                        var touchDelta = touch.position - _touchStartPosition;
+                        if (touch.position.x < Screen.width / 2)
+                        {
+                            _moveX = touchDelta.x;
+                            _moveZ = touchDelta.y;
+                        }
+                        else
+                        {
+                            _moveX = 0f;
+                            _moveZ = 0f;
+                        }
+
+                        break;
+                    case TouchPhase.Ended:
+                    case TouchPhase.Canceled:
+                        // Reset movement values
                         _moveX = 0f;
                         _moveZ = 0f;
-                    }
-                    break;
-                case TouchPhase.Ended:
-                case TouchPhase.Canceled:
-                    // Reset movement values
-                    _moveX = 0f;
-                    _moveZ = 0f;
-                    break;
+                        break;
+                }
             }
         }
     }
