@@ -15,10 +15,10 @@ namespace Ecs
             EcsEntity playerEntity = _world.NewEntity();
 
             ref var player = ref playerEntity.Get<PlayerComponent>();
-            // ref var inputData = ref playerEntity.Get<PlayerInputData>();
-            
+            ref var modelComponent = ref playerEntity.Get<ModelComponent>();
+
             GameObject playerGO = Object.Instantiate(staticData.playerPrefab, sceneData.playerSpawnPoint.position, Quaternion.identity);
-            player.playerCharacterController = playerGO.GetComponent<CharacterController>();
+            modelComponent.modelTransform = playerGO.transform;
         }
     }
 }

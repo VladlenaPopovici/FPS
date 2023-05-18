@@ -5,7 +5,7 @@ namespace Ecs
 {
     public sealed class PlayerLookSystem : IEcsInitSystem, IEcsRunSystem
     {
-        private readonly EcsFilter<PlayerTag> playerFilter = null;
+        private readonly EcsFilter<PlayerComponent> playerFilter = null;
         private readonly EcsFilter<PlayerTag, ModelComponent, LookDirectionComponent> lookFilter = null;
 
         private Quaternion startTransformRotation;
