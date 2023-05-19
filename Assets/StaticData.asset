@@ -12,4 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5625a554f04c4136bb2e7764dc184013, type: 3}
   m_Name: StaticData
   m_EditorClassIdentifier: 
+  weaponPrefabs:
+  - {fileID: 3788719308072773664, guid: 1ef1676ddd8d0a645894b932a5ec66cb, type: 3}
   playerPrefab: {fileID: 881173818604223431, guid: 31e092398b1da59428a63904e4c4258d, type: 3}
+  weaponOffset: {x: 0.05, y: 0.47, z: 1.02}
