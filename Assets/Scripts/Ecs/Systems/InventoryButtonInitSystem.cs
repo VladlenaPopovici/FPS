@@ -28,6 +28,14 @@ namespace Ecs
             inventoryComponent.inventoryScrollView =
                 Object.Instantiate(_staticData.inventoryScrollViewPrefab, buttonsPanel);
             inventoryScrollView = inventoryComponent.inventoryScrollView;
+            inventoryComponent.closeInventoryButton = inventoryScrollView.GetComponentInChildren<Button>();
+            inventoryComponent.closeInventoryButton.onClick.AddListener(OnCloseEvent);
+        }
+
+        private void OnCloseEvent()
+        {
+            inventoryButton.gameObject.SetActive(true);
+            inventoryScrollView.gameObject.SetActive(false);
         }
 
         private void OnClickEvent()

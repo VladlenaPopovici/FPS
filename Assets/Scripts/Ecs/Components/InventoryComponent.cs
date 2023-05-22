@@ -1,7 +1,6 @@
 ﻿using System.Collections.Generic;
-using UnityEngine;
 using UnityEngine.UI;
-using UnityEngine.UIElements;
+using Button = UnityEngine.UI.Button;
 
 namespace Ecs
 {
@@ -10,5 +9,6 @@ namespace Ecs
         public List<SlotComponent> slotComponents;
         public ButtonComponent inventoryButton;
         public ScrollRect inventoryScrollView;
+        public Button closeInventoryButton;
     }
 }
