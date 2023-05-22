@@ -16,5 +16,7 @@ namespace Ecs.Data
         public int inventoryCapacity;
         public Button inventoryButtonPrefab;
         public ScrollRect inventoryScrollViewPrefab;
+        public GameObject chestPrefab;
+        public GameObject parentChest;
     }
 }

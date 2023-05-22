@@ -34,12 +34,14 @@ namespace Ecs
 
         private void OnCloseEvent()
         {
+            Time.timeScale = 1;
             inventoryButton.gameObject.SetActive(true);
             inventoryScrollView.gameObject.SetActive(false);
         }
 
         private void OnClickEvent()
         {
+            Time.timeScale = 0;
             inventoryButton.gameObject.SetActive(false);
             inventoryScrollView.gameObject.SetActive(true);
         }
