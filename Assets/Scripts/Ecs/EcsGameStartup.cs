@@ -49,6 +49,8 @@ public sealed class EcsGameStartup : MonoBehaviour
     {
         systems
             .Add(new PlayerInitSystem())
+            .Add(new InventoryInitSystem())
+            .Add(new InventoryButtonInitSystem())
             .Add(new PlayerInputSystem())
             .Add(new MovementSystem())
             .Add(new PlayerWeaponChaseSystem())
