@@ -9,7 +9,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 7127765680766477202}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: Chests
   m_TagString: Untagged
   m_Icon: {fileID: 0}

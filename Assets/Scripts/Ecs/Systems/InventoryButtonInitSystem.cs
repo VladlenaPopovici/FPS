@@ -2,6 +2,7 @@
 using Leopotam.Ecs;
 using UnityEngine;
 using UnityEngine.UI;
+using Utils;
 
 namespace Ecs
 {
@@ -19,14 +20,12 @@ namespace Ecs
             var buttonComponent = inventoryEntity.Get<ButtonComponent>();
             inventoryComponent.inventoryButton = buttonComponent;
 
-            var buttonsPanelObj = GameObject.FindWithTag("UI");
-            var buttonsPanel = buttonsPanelObj.GetComponent<RectTransform>();
-            inventoryComponent.inventoryButton.button = Object.Instantiate(_staticData.inventoryButtonPrefab, buttonsPanel);
+            inventoryComponent.inventoryButton.button = Object.Instantiate(_staticData.inventoryButtonPrefab, Constants.buttonsPanel);
             inventoryButton = inventoryComponent.inventoryButton.button;
             inventoryButton.onClick.AddListener(OnClickEvent);
 
             inventoryComponent.inventoryScrollView =
-                Object.Instantiate(_staticData.inventoryScrollViewPrefab, buttonsPanel);
+                Object.Instantiate(_staticData.inventoryScrollViewPrefab, Constants.buttonsPanel);
             inventoryScrollView = inventoryComponent.inventoryScrollView;
             inventoryComponent.closeInventoryButton = inventoryScrollView.GetComponentInChildren<Button>();
             inventoryComponent.closeInventoryButton.onClick.AddListener(OnCloseEvent);

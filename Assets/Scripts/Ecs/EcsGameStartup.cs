@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using Ecs;
 using Ecs.Data;
+using Ecs.Systems;
 using Leopotam.Ecs;
 using UnityEngine;
 using Voody.UniLeo;
@@ -57,6 +58,8 @@ public sealed class EcsGameStartup : MonoBehaviour
             .Add(new PlayerWeaponChaseSystem())
             .Add(new PlayerRightInputSystem())
             .Add(new PlayerLookSystem())
+            .Add(new CheckInteractableSystem())
+            .Add(new ToggleButtonSystem())
             ;
     }
 

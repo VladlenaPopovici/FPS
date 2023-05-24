@@ -19,5 +19,8 @@ MonoBehaviour:
   inventoryCapacity: 9
   inventoryButtonPrefab: {fileID: 5692573735612513453, guid: 346b2bffb59163c44882734b9234311a, type: 3}
   inventoryScrollViewPrefab: {fileID: 5996034699765423380, guid: 3946715f54a94d742ad2cd1fb0e0e6d1, type: 3}
-  chestPrefab: {fileID: 555133621666883522, guid: a40d7854b2bdd6047966a327dc7d335f, type: 3}
-  chestsTransform: {fileID: 7127765680766477202, guid: 23585bf419d22f14886341e2a8f4182c, type: 3}
+  chestPrefab: {fileID: 555133621666883522, guid: 56a8bad530c6e8a4e830ee7148265b83, type: 3}
+  parentChest: {fileID: 7127765680766477201, guid: 23585bf419d22f14886341e2a8f4182c, type: 3}
+  layerMask:
+    serializedVersion: 2
+    m_Bits: 64

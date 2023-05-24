@@ -18,5 +18,7 @@ namespace Ecs.Data
         public ScrollRect inventoryScrollViewPrefab;
         public GameObject chestPrefab;
         public GameObject parentChest;
+        public LayerMask layerMask;
+        public Button openChestButtonPrefab;
     }
 }

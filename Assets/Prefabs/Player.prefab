@@ -136,7 +136,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   value:
     characterController: {fileID: 881173818604223435}
-    speed: 0.01
+    speed: 0.05
 --- !u!114 &881173818604223428
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -192,7 +192,7 @@ MonoBehaviour:
   value:
     cameraTransform: {fileID: 881173818895254870}
     direction: {x: 0, y: 0}
-    mouseSensitivity: 0.02
+    mouseSensitivity: 0.01
 --- !u!1 &881173818895254867
 GameObject:
   m_ObjectHideFlags: 0

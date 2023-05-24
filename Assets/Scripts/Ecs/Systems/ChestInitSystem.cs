@@ -7,6 +7,7 @@ namespace Ecs
 {
     public sealed class ChestInitSystem : IEcsInitSystem
     {
+        private readonly EcsWorld _world = null;
         private StaticData _staticData;
         private const float minX = -50;
         private const float maxX = 50;
@@ -16,8 +17,18 @@ namespace Ecs
         public void Init()
         {
             var parentChest = Object.Instantiate(_staticData.parentChest);
+            var chestButtonEntity = _world.NewEntity();
             
-            for (int i = 0; i < 10; i++)
+            var button = Object.Instantiate(_staticData.openChestButtonPrefab, Constants.buttonsPanel);
+
+            chestButtonEntity.Get<ChestButtonComponent>() = new ChestButtonComponent()
+            {
+                button = button
+            };
+
+            chestButtonEntity.Get<OpenChestButtonTag>();
+            
+            for (var i = 0; i < 10; i++)
             {
                 var position = new Vector3
                 {
@@ -35,6 +46,13 @@ namespace Ecs
 
                 var chest = Object.Instantiate(_staticData.chestPrefab, position, rotation, parentChest.transform);
 
+                var chestEntity = _world.NewEntity();
+                chestEntity.Get<InteractableComponent>() = new InteractableComponent()
+                {
+                    collider = chest.GetComponent<Collider>(),
+                    transform = chest.transform
+                };
+                chestEntity.Get<InteractableTag>();
             }
         }
     }
