@@ -9,5 +9,6 @@ namespace Ecs
     {
         public Transform transform;
         public Collider collider;
+        public bool isInteracted;
     }
 }

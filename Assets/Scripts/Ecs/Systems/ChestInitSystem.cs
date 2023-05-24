@@ -1,6 +1,8 @@
-﻿using Ecs.Data;
+﻿using System.Collections.Generic;
+using Ecs.Data;
 using Leopotam.Ecs;
 using UnityEngine;
+using UnityEngine.UI;
 using Utils;
 
 namespace Ecs
@@ -13,21 +15,15 @@ namespace Ecs
         private const float maxX = 50;
         private const float minZ = -50;
         private const float maxZ = 50;
+        private ScrollRect chestInventory;
+        private Button openChestButton;
+
 
         public void Init()
         {
             var parentChest = Object.Instantiate(_staticData.parentChest);
-            var chestButtonEntity = _world.NewEntity();
-            
-            var button = Object.Instantiate(_staticData.openChestButtonPrefab, Constants.buttonsPanel);
+            chestInventory = Object.Instantiate(_staticData.chestInventoryPrefab, Constants.buttonsPanel);
 
-            chestButtonEntity.Get<ChestButtonComponent>() = new ChestButtonComponent()
-            {
-                button = button
-            };
-
-            chestButtonEntity.Get<OpenChestButtonTag>();
-            
             for (var i = 0; i < 10; i++)
             {
                 var position = new Vector3
@@ -50,10 +46,43 @@ namespace Ecs
                 chestEntity.Get<InteractableComponent>() = new InteractableComponent()
                 {
                     collider = chest.GetComponent<Collider>(),
-                    transform = chest.transform
+                    transform = chest.transform,
                 };
                 chestEntity.Get<InteractableTag>();
+            
+                chestEntity.Get<InventoryTag>();
+                InventoryComponent inventoryComponent = chestEntity.Get<InventoryComponent>();
+                inventoryComponent.slotComponents = new List<SlotComponent>(_staticData.inventoryCapacity);
+                inventoryComponent.inventoryScrollView = chestInventory;
+
+                for (int j = 0; j < _staticData.inventoryCapacity; j++)
+                {
+                    inventoryComponent.slotComponents.Add(new SlotComponent());
+                }
             }
+            
+            
+            var chestButtonEntity = _world.NewEntity();
+            
+            openChestButton = Object.Instantiate(_staticData.openChestButtonPrefab, Constants.buttonsPanel);
+            openChestButton.onClick.AddListener(OpenChestInventory);
+            chestButtonEntity.Get<ChestButtonComponent>() = new ChestButtonComponent()
+            {
+                button = openChestButton
+            };
+            chestButtonEntity.Get<OpenChestButtonTag>();
+
+            chestInventory.GetComponentInChildren<Button>().onClick.AddListener(CloseChestInventory);
+        }
+
+        private void OpenChestInventory()
+        {
+            chestInventory.gameObject.SetActive(true);
+        }
+
+        private void CloseChestInventory()
+        {
+            chestInventory.gameObject.SetActive(false);
         }
     }
 }

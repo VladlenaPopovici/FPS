@@ -20,5 +20,6 @@ namespace Ecs.Data
         public GameObject parentChest;
         public LayerMask layerMask;
         public Button openChestButtonPrefab;
+        public ScrollRect chestInventoryPrefab;
     }
 }

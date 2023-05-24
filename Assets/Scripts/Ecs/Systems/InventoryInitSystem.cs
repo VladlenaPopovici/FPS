@@ -13,6 +13,7 @@ namespace Ecs
         public void Init()
         {
             EcsEntity inventoryEntity = _world.NewEntity();
+            inventoryEntity.Get<InventoryTag>();
             InventoryComponent inventoryComponent = inventoryEntity.Get<InventoryComponent>();
             inventoryComponent.slotComponents = new List<SlotComponent>(_staticData.inventoryCapacity);
 

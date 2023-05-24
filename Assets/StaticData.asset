@@ -24,3 +24,4 @@ MonoBehaviour:
   layerMask:
     serializedVersion: 2
     m_Bits: 64
+  openChestButtonPrefab: {fileID: 3436643915515164167, guid: da4c52a17505ae849ac007ae17dd2da3, type: 3}
