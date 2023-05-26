@@ -17,11 +17,14 @@ namespace Ecs
         {
             EcsEntity inventoryEntity = _world.NewEntity();
             ref InventoryComponent inventoryComponent = ref inventoryEntity.Get<InventoryComponent>();
-            var buttonComponent = inventoryEntity.Get<ButtonComponent>();
-            inventoryComponent.inventoryButton = buttonComponent;
+            
+            inventoryButton = Object.Instantiate(_staticData.inventoryButtonPrefab, Constants.buttonsPanel);
+            inventoryEntity.Get<ButtonComponent>() = new ButtonComponent()
+            {
+                button = inventoryButton,
+                isVisible = true
 
-            inventoryComponent.inventoryButton.button = Object.Instantiate(_staticData.inventoryButtonPrefab, Constants.buttonsPanel);
-            inventoryButton = inventoryComponent.inventoryButton.button;
+            };
             inventoryButton.onClick.AddListener(OnClickEvent);
 
             inventoryComponent.inventoryScrollView =

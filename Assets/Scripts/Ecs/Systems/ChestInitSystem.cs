@@ -49,7 +49,7 @@ namespace Ecs
                     transform = chest.transform,
                 };
                 chestEntity.Get<InteractableTag>();
-            
+
                 chestEntity.Get<InventoryTag>();
                 InventoryComponent inventoryComponent = chestEntity.Get<InventoryComponent>();
                 inventoryComponent.slotComponents = new List<SlotComponent>(_staticData.inventoryCapacity);
@@ -60,13 +60,13 @@ namespace Ecs
                     inventoryComponent.slotComponents.Add(new SlotComponent());
                 }
             }
-            
-            
+
+
             var chestButtonEntity = _world.NewEntity();
-            
+
             openChestButton = Object.Instantiate(_staticData.openChestButtonPrefab, Constants.buttonsPanel);
             openChestButton.onClick.AddListener(OpenChestInventory);
-            chestButtonEntity.Get<ChestButtonComponent>() = new ChestButtonComponent()
+            chestButtonEntity.Get<ButtonComponent>() = new ButtonComponent()
             {
                 button = openChestButton
             };

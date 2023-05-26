@@ -3,14 +3,14 @@ using Leopotam.Ecs;
 
 public sealed class ToggleButtonSystem : IEcsRunSystem
 {
-    private EcsFilter<ChestButtonComponent> buttonsFilter;
+    private EcsFilter<ButtonComponent> buttonsFilter;
 
     public void Run()
     {
         foreach (var i in buttonsFilter)
         {
-            var chestButtonComponent = buttonsFilter.Get1(i);
-            chestButtonComponent.button.gameObject.SetActive(chestButtonComponent.isVisible);
+            var buttonComponent = buttonsFilter.Get1(i);
+            buttonComponent.button.gameObject.SetActive(buttonComponent.isVisible);
         }
     }
 }

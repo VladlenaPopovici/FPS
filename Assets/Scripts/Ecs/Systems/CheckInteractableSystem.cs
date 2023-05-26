@@ -9,7 +9,7 @@ namespace Ecs.Systems
     {
         private readonly EcsFilter<InteractableTag, InteractableComponent> interactableFilter = null;
         private readonly EcsFilter<PlayerTag, ModelComponent, LookDirectionComponent> playerFilter = null;
-        private EcsFilter<OpenChestButtonTag, ChestButtonComponent> chestButtonFilter;
+        private EcsFilter<OpenChestButtonTag, ButtonComponent> chestButtonFilter;
         private List<KeyValuePair<Vector3, Collider>> interactableMetaData = new();
         private StaticData _staticData;
 
