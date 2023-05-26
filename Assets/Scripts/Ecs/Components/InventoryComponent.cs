@@ -7,7 +7,5 @@ namespace Ecs
     public struct InventoryComponent
     {
         public List<SlotComponent> slotComponents;
-        public ScrollRect inventoryScrollView;
-        public Button closeInventoryButton;
     }
 }

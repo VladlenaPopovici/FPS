@@ -51,7 +51,6 @@ public sealed class EcsGameStartup : MonoBehaviour
         systems
             .Add(new PlayerInitSystem())
             .Add(new InventoryInitSystem())
-            .Add(new InventoryButtonInitSystem())
             .Add(new ChestInitSystem())
             .Add(new PlayerInputSystem())
             .Add(new MovementSystem())
@@ -59,7 +58,6 @@ public sealed class EcsGameStartup : MonoBehaviour
             .Add(new PlayerRightInputSystem())
             .Add(new PlayerLookSystem())
             .Add(new CheckInteractableSystem())
-            .Add(new ToggleButtonSystem())
             ;
     }
 

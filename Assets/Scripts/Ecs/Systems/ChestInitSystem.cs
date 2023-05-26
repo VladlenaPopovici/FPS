@@ -9,27 +9,29 @@ namespace Ecs
 {
     public sealed class ChestInitSystem : IEcsInitSystem
     {
-        private readonly EcsWorld _world = null;
-        private StaticData _staticData;
-        private const float minX = -50;
-        private const float maxX = 50;
-        private const float minZ = -50;
-        private const float maxZ = 50;
-        private ScrollRect chestInventory;
-        private Button openChestButton;
+        private const float MinX = -50;
+        private const float MaxX = 50;
+        private const float MinZ = -50;
+        private const float MaxZ = 50;
+        
+        private EcsFilter<InventoryTag, ButtonComponent, ScrollViewComponent> _inventoryFilter;
 
+        private EcsWorld _world;
+        private StaticData _staticData;
+        private ScrollRect _chestInventory;
+        private Button _openChestButton;
 
         public void Init()
         {
             var parentChest = Object.Instantiate(_staticData.parentChest);
-            chestInventory = Object.Instantiate(_staticData.chestInventoryPrefab, Constants.buttonsPanel);
+            _chestInventory = Object.Instantiate(_staticData.chestInventoryPrefab, Constants.buttonsPanel);
 
             for (var i = 0; i < 10; i++)
             {
                 var position = new Vector3
                 {
-                    x = Randomizer.GetRandomInRange(minX, maxX),
-                    z = Randomizer.GetRandomInRange(minZ, maxZ),
+                    x = Randomizer.GetRandomInRange(MinX, MaxX),
+                    z = Randomizer.GetRandomInRange(MinZ, MaxZ),
                     y = 0.3f
                 };
 
@@ -43,46 +45,69 @@ namespace Ecs
                 var chest = Object.Instantiate(_staticData.chestPrefab, position, rotation, parentChest.transform);
 
                 var chestEntity = _world.NewEntity();
+                chestEntity.Get<ChestTag>();
+                chestEntity.Get<InteractableTag>();
+                chestEntity.Get<InventoryTag>();
                 chestEntity.Get<InteractableComponent>() = new InteractableComponent()
                 {
                     collider = chest.GetComponent<Collider>(),
                     transform = chest.transform,
+                    type = InteractableType.Chest
                 };
-                chestEntity.Get<InteractableTag>();
 
-                chestEntity.Get<InventoryTag>();
-                InventoryComponent inventoryComponent = chestEntity.Get<InventoryComponent>();
+                var inventoryComponent = chestEntity.Get<InventoryComponent>();
                 inventoryComponent.slotComponents = new List<SlotComponent>(_staticData.inventoryCapacity);
-                inventoryComponent.inventoryScrollView = chestInventory;
 
-                for (int j = 0; j < _staticData.inventoryCapacity; j++)
+                chestEntity.Get<ScrollViewComponent>() = new ScrollViewComponent()
+                {
+                    scrollView = _chestInventory
+                };
+
+                for (var j = 0; j < _staticData.inventoryCapacity; j++)
                 {
                     inventoryComponent.slotComponents.Add(new SlotComponent());
                 }
             }
 
-
             var chestButtonEntity = _world.NewEntity();
 
-            openChestButton = Object.Instantiate(_staticData.openChestButtonPrefab, Constants.buttonsPanel);
-            openChestButton.onClick.AddListener(OpenChestInventory);
+            _openChestButton = Object.Instantiate(_staticData.openChestButtonPrefab, Constants.buttonsPanel);
+            _openChestButton.onClick.AddListener(OpenChestInventory);
             chestButtonEntity.Get<ButtonComponent>() = new ButtonComponent()
             {
-                button = openChestButton
+                button = _openChestButton
             };
             chestButtonEntity.Get<OpenChestButtonTag>();
 
-            chestInventory.GetComponentInChildren<Button>().onClick.AddListener(CloseChestInventory);
+            _chestInventory.GetComponentInChildren<Button>().onClick.AddListener(CloseChestInventory);
         }
 
         private void OpenChestInventory()
         {
-            chestInventory.gameObject.SetActive(true);
+            Time.timeScale = 0;
+            _chestInventory.gameObject.SetActive(true);
+            _openChestButton.gameObject.SetActive(false);
+            foreach (var i in _inventoryFilter)
+            {
+                var inventoryButton = _inventoryFilter.Get2(i);
+                inventoryButton.button.gameObject.SetActive(false);
+                var inventoryScrollView = _inventoryFilter.Get3(i);
+                inventoryScrollView.scrollView.gameObject.SetActive(true);
+            }
         }
 
         private void CloseChestInventory()
         {
-            chestInventory.gameObject.SetActive(false);
+            Time.timeScale = 1;
+            _chestInventory.gameObject.SetActive(false);
+            _openChestButton.gameObject.SetActive(true);
+            foreach (var i in _inventoryFilter)
+            {
+                var inventoryButton = _inventoryFilter.Get2(i);
+                inventoryButton.button.gameObject.SetActive(true);
+                var inventoryScrollView = _inventoryFilter.Get3(i);
+                inventoryScrollView.scrollView.gameObject.SetActive(false);
+            }
         }
     }
 }

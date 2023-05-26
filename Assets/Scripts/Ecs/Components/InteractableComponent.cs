@@ -9,6 +9,11 @@ namespace Ecs
     {
         public Transform transform;
         public Collider collider;
-        public bool isInteracted;
+        public InteractableType type;
+    }
+
+    public enum InteractableType
+    {
+        Chest,
     }
 }
