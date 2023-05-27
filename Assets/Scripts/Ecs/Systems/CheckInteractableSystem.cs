@@ -29,13 +29,16 @@ namespace Ecs.Systems
             var isChestNear = false;
             foreach (var i in _interactableFilter)
             {
-                var interactable = _interactableFilter.Get2(i);
-                if (IsNear(playerPosition, interactable.transform.position) && IsLooking(ray, interactable.collider))
+                ref var interactable = ref _interactableFilter.Get2(i);
+                interactable.isNear = false;
+                
+                if (!IsNear(playerPosition, interactable.transform.position)) continue;
+                interactable.isNear = true;
+                if (!IsLooking(ray, interactable.collider)) continue;
+
+                if (interactable.type == InteractableType.Chest)
                 {
-                    if (interactable.type == InteractableType.Chest)
-                    {
-                        isChestNear = true;
-                    }
+                    isChestNear = true;
                 }
             }
 

@@ -26,6 +26,5 @@ MonoBehaviour:
     m_Bits: 64
   openChestButtonPrefab: {fileID: 3436643915515164167, guid: da4c52a17505ae849ac007ae17dd2da3, type: 3}
   chestInventoryPrefab: {fileID: 5996034699765423380, guid: 56c38bb4474973d40a51f3d2dba12778, type: 3}
-  ItemTypeSprite:
-    keys: 
-    values: []
+  hpPotionImage: {fileID: 21300000, guid: 91c1dc252cf06e6408d34e9cb3018f57, type: 3}
+  speedPotion: {fileID: 21300000, guid: 973ad239211c3794288dde4dccfbe178, type: 3}

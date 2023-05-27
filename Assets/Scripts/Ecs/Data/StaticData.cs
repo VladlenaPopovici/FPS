@@ -25,7 +25,7 @@ namespace Ecs.Data
         public ScrollRect chestInventoryPrefab;
         // x3 sprite 
         public Sprite hpPotionImage;
-        // public Sprite expPotion;
+        public Sprite speedPotion;
         // public Sprite weaponPotion;
         // public SerializableDictionary<ItemType, Sprite> ItemTypeSprite;
     }

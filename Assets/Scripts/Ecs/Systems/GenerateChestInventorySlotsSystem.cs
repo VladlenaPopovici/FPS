@@ -5,13 +5,16 @@ namespace Ecs.Systems
 {
     public sealed class GenerateChestInventorySlotsSystem : IEcsRunSystem
     {
-        private EcsFilter<InteractableTag, ChestTag, InventoryComponent, ScrollViewComponent> _chestInventoryFilter;
+        private EcsFilter<InteractableTag, ChestTag, InventoryComponent, ScrollViewComponent, InteractableComponent> _chestInventoryFilter;
 
         public void Run()
         {
             foreach (var i in _chestInventoryFilter)
             {
                 ref var inventoryComponent = ref _chestInventoryFilter.Get3(i);
+                ref var interactable = ref _chestInventoryFilter.Get5(i);
+                if (!interactable.isNear) continue;
+                
                 for (var j = 0; j < inventoryComponent.slotComponents.Count; j++)
                 {
                     var slot = inventoryComponent.slotComponents[j];

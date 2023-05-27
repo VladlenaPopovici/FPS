@@ -1,10 +1,12 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using Ecs.Data;
 using Inventory;
 using Leopotam.Ecs;
 using UnityEngine;
 using UnityEngine.UI;
 using Utils;
+using Object = UnityEngine.Object;
 
 namespace Ecs
 {
@@ -60,7 +62,7 @@ namespace Ecs
                 {
                     scrollView = _chestInventory
                 };
-                
+
                 var inventoryComponent = new InventoryComponent();
                 inventoryComponent.slotComponents = new List<SlotComponent>(_staticData.inventoryCapacity);
                 for (var j = 0; j < _staticData.inventoryCapacity; j++)
@@ -70,7 +72,7 @@ namespace Ecs
 
                 chestEntity.Get<InventoryComponent>() = inventoryComponent;
             }
-            
+
             var chestButtonEntity = _world.NewEntity();
 
             _openChestButton = Object.Instantiate(_staticData.openChestButtonPrefab, Constants.buttonsPanel);
@@ -97,7 +99,7 @@ namespace Ecs
                 {
                     itemComponent.quantity = 1;
                 }
-                
+
                 slotComponent.itemComponent = itemComponent;
             }
 
@@ -106,14 +108,23 @@ namespace Ecs
 
         private Item GenerateRandomItem()
         {
+            var itemType = Randomizer.GetRandomEnumValue<ItemType>();
             var item = new Item
             {
-                itemType = Randomizer.GetRandomEnumValue<ItemType>(),
-                // item.itemSprite = _staticData.ItemTypeSprite[item.itemType];
-                itemSprite = _staticData.hpPotionImage
+                itemType = itemType,
+                itemSprite = GetSpriteByItemType(itemType)
             };
             return item;
         }
+
+        private Sprite GetSpriteByItemType(ItemType type) => type switch
+        {
+            ItemType.HealthPotion => _staticData.hpPotionImage,
+            ItemType.SpeedPotion => _staticData.speedPotion,
+            
+            ItemType.Weapon => _staticData.hpPotionImage,
+            _ => throw new ArgumentOutOfRangeException("Non default item type")
+        };
 
         private void OpenChestInventory()
         {
