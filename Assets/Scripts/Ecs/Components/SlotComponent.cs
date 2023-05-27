@@ -2,6 +2,6 @@
 {
     public struct SlotComponent
     {
-        public ItemComponent itemComponent;
+        public ItemComponent? itemComponent;
     }
 }

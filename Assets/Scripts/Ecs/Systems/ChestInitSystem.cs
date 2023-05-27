@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using Ecs.Data;
+using Inventory;
 using Leopotam.Ecs;
 using UnityEngine;
 using UnityEngine.UI;
@@ -13,7 +14,7 @@ namespace Ecs
         private const float MaxX = 50;
         private const float MinZ = -50;
         private const float MaxZ = 50;
-        
+
         private EcsFilter<InventoryTag, ButtonComponent, ScrollViewComponent> _inventoryFilter;
 
         private EcsWorld _world;
@@ -55,20 +56,21 @@ namespace Ecs
                     type = InteractableType.Chest
                 };
 
-                var inventoryComponent = chestEntity.Get<InventoryComponent>();
-                inventoryComponent.slotComponents = new List<SlotComponent>(_staticData.inventoryCapacity);
-
                 chestEntity.Get<ScrollViewComponent>() = new ScrollViewComponent()
                 {
                     scrollView = _chestInventory
                 };
-
+                
+                var inventoryComponent = new InventoryComponent();
+                inventoryComponent.slotComponents = new List<SlotComponent>(_staticData.inventoryCapacity);
                 for (var j = 0; j < _staticData.inventoryCapacity; j++)
                 {
-                    inventoryComponent.slotComponents.Add(new SlotComponent());
+                    inventoryComponent.slotComponents.Add(GenerateRandomSlot());
                 }
-            }
 
+                chestEntity.Get<InventoryComponent>() = inventoryComponent;
+            }
+            
             var chestButtonEntity = _world.NewEntity();
 
             _openChestButton = Object.Instantiate(_staticData.openChestButtonPrefab, Constants.buttonsPanel);
@@ -80,6 +82,37 @@ namespace Ecs
             chestButtonEntity.Get<OpenChestButtonTag>();
 
             _chestInventory.GetComponentInChildren<Button>().onClick.AddListener(CloseChestInventory);
+        }
+
+        private SlotComponent GenerateRandomSlot()
+        {
+            var slotComponent = new SlotComponent();
+
+            if (Randomizer.GetRandomBool())
+            {
+                var itemComponent = new ItemComponent();
+                itemComponent.item = GenerateRandomItem();
+                itemComponent.quantity = (byte)Randomizer.GetRandomInRange(1, 5);
+                if (itemComponent.item.itemType == ItemType.Weapon)
+                {
+                    itemComponent.quantity = 1;
+                }
+                
+                slotComponent.itemComponent = itemComponent;
+            }
+
+            return slotComponent;
+        }
+
+        private Item GenerateRandomItem()
+        {
+            var item = new Item
+            {
+                itemType = Randomizer.GetRandomEnumValue<ItemType>(),
+                // item.itemSprite = _staticData.ItemTypeSprite[item.itemType];
+                itemSprite = _staticData.hpPotionImage
+            };
+            return item;
         }
 
         private void OpenChestInventory()

@@ -1,8 +1,10 @@
 ﻿using System.Collections.Generic;
+using Inventory;
 using UnityEngine;
 using UnityEngine.Serialization;
 using UnityEngine.UI;
 using UnityEngine.UIElements;
+using Utils;
 using Button = UnityEngine.UI.Button;
 
 namespace Ecs.Data
@@ -21,5 +23,10 @@ namespace Ecs.Data
         public LayerMask layerMask;
         public Button openChestButtonPrefab;
         public ScrollRect chestInventoryPrefab;
+        // x3 sprite 
+        public Sprite hpPotionImage;
+        // public Sprite expPotion;
+        // public Sprite weaponPotion;
+        // public SerializableDictionary<ItemType, Sprite> ItemTypeSprite;
     }
 }

@@ -9,8 +9,6 @@ namespace Ecs
 {
     public sealed class InventoryInitSystem : IEcsInitSystem
     {
-        private EcsFilter<ChestTag, ScrollViewComponent> _chestScrollViewFilter;
-
         private EcsWorld _world;
         private StaticData _staticData;
         private ScrollRect _inventoryScrollView;
@@ -57,11 +55,6 @@ namespace Ecs
             Time.timeScale = 1;
             _inventoryScrollView.gameObject.SetActive(false);
             _inventoryButton.gameObject.SetActive(true);
-            foreach (var i in _chestScrollViewFilter)
-            {
-                var scrollViewComponent = _chestScrollViewFilter.Get2(i);
-                scrollViewComponent.scrollView.gameObject.SetActive(false);
-            }
         }
 
         private void OnClickEvent()

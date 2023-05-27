@@ -2,7 +2,7 @@
 
 namespace Inventory
 {
-    public class Item : ScriptableObject
+    public class Item
     {
         public ItemType itemType;
         public Sprite itemSprite;

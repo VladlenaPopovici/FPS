@@ -58,6 +58,7 @@ public sealed class EcsGameStartup : MonoBehaviour
             .Add(new PlayerRightInputSystem())
             .Add(new PlayerLookSystem())
             .Add(new CheckInteractableSystem())
+            .Add(new GenerateChestInventorySlotsSystem())
             ;
     }
 

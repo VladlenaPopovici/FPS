@@ -5,30 +5,12 @@ using UnityEngine;
 
 namespace Ecs.Systems
 {
-    public class CheckInteractableSystem : IEcsInitSystem, IEcsRunSystem
+    public class CheckInteractableSystem : IEcsRunSystem
     {
         private EcsFilter<PlayerTag, ModelComponent, LookDirectionComponent> _playerFilter;
         private EcsFilter<InteractableTag, InteractableComponent> _interactableFilter;
         private EcsFilter<OpenChestButtonTag, ButtonComponent> _chestButtonFilter;
         private StaticData _staticData;
-        
-        private readonly List<InteractableMetadata> _interactableMetaData = new();
-
-        public void Init()
-        {
-            foreach (var i in _interactableFilter)
-            {
-                var interactableComponent = _interactableFilter.Get2(i);
-                _interactableMetaData.Add(
-                    new InteractableMetadata()
-                    {
-                        Position = interactableComponent.transform.position,
-                        Collider = interactableComponent.collider,
-                        Type = interactableComponent.type
-                    }
-                );
-            }
-        }
 
         public void Run()
         {
@@ -45,11 +27,12 @@ namespace Ecs.Systems
             Debug.DrawRay(ray.origin, ray.direction * 3);
 
             var isChestNear = false;
-            foreach (var interactable in _interactableMetaData)
+            foreach (var i in _interactableFilter)
             {
-                if (IsNear(playerPosition, interactable.Position) && IsLooking(ray, interactable.Collider))
+                var interactable = _interactableFilter.Get2(i);
+                if (IsNear(playerPosition, interactable.transform.position) && IsLooking(ray, interactable.collider))
                 {
-                    if (interactable.Type == InteractableType.Chest)
+                    if (interactable.type == InteractableType.Chest)
                     {
                         isChestNear = true;
                     }
@@ -78,12 +61,5 @@ namespace Ecs.Systems
 
             return distance < radius;
         }
-    }
-
-    public struct InteractableMetadata
-    {
-        public Vector3 Position;
-        public Collider Collider;
-        public InteractableType Type;
     }
 }
