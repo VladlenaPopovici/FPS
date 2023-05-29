@@ -121,8 +121,7 @@ namespace Ecs
         {
             ItemType.HealthPotion => _staticData.hpPotionImage,
             ItemType.SpeedPotion => _staticData.speedPotion,
-            
-            ItemType.Weapon => _staticData.hpPotionImage,
+            ItemType.Weapon => _staticData.weaponImage,
             _ => throw new ArgumentOutOfRangeException("Non default item type")
         };
 

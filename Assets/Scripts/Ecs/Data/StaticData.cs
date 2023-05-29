@@ -23,10 +23,9 @@ namespace Ecs.Data
         public LayerMask layerMask;
         public Button openChestButtonPrefab;
         public ScrollRect chestInventoryPrefab;
-        // x3 sprite 
         public Sprite hpPotionImage;
         public Sprite speedPotion;
-        // public Sprite weaponPotion;
+        public Sprite weaponImage;
         // public SerializableDictionary<ItemType, Sprite> ItemTypeSprite;
     }
 }
