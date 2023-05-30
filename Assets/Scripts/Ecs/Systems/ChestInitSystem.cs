@@ -126,7 +126,7 @@ namespace Ecs
                 slotComponent.itemComponent = itemComponent;
             }
 
-            slotComponent.itemSprite = GetSpriteByItemType(slotComponent.itemComponent?.item.itemType);
+            slotComponent.itemSprite = _staticData.GetSpriteByItemType(slotComponent.itemComponent?.item.itemType);
 
             return slotComponent;
         }
@@ -140,14 +140,6 @@ namespace Ecs
             };
             return item;
         }
-
-        private Sprite GetSpriteByItemType(ItemType? type) => type switch
-        {
-            ItemType.HealthPotion => _staticData.hpPotionImage,
-            ItemType.SpeedPotion => _staticData.speedPotion,
-            ItemType.Weapon => _staticData.weaponImage,
-            _ => _staticData.emptySprite,
-        };
 
         private void OpenChestInventory()
         {

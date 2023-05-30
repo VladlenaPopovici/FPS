@@ -14,6 +14,7 @@ namespace Ecs.Systems
             _chestInventoryFilter;
 
         private EcsFilter<ChestTag, LatestClickedSlotComponent> _latestClickedChestSlotFilter;
+        private EcsFilter<TemporaryInventoryComponent> _temporaryInventoryFilter;
         private StaticData _staticData;
 
         public void Run()
@@ -52,6 +53,11 @@ namespace Ecs.Systems
 
                     if (slotMetaData != null && !slotMetaData.isHandled && slotMetaData.index == j)
                     {
+                        foreach (var k in _temporaryInventoryFilter)
+                        {
+                            ref var temporaryInventoryComponent = ref _temporaryInventoryFilter.Get1(k);
+                            temporaryInventoryComponent.transferedItem = itemComponent.item.itemType;
+                        }
                         slotMetaData.isHandled = true;
                         if (itemComponent.quantity == 1)
                         {

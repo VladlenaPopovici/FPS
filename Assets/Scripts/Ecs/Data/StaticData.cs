@@ -28,5 +28,15 @@ namespace Ecs.Data
         public Sprite weaponImage;
         public Sprite emptySprite;
         // public SerializableDictionary<ItemType, Sprite> ItemTypeSprite;
+        
+        
+
+        public Sprite GetSpriteByItemType(ItemType? type) => type switch
+        {
+            ItemType.HealthPotion => hpPotionImage,
+            ItemType.SpeedPotion => speedPotion,
+            ItemType.Weapon => weaponImage,
+            _ => emptySprite,
+        };
     }
 }

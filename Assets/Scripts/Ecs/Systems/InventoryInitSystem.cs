@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.Linq;
 using Ecs.Data;
 using Leopotam.Ecs;
 using UnityEngine;
@@ -18,13 +19,14 @@ namespace Ecs
         public void Init()
         {
             var inventoryEntity = _world.NewEntity();
+            inventoryEntity.Get<PlayerTag>();
             inventoryEntity.Get<InventoryTag>();
             var inventoryComponent = new InventoryComponent();
             inventoryComponent.slotComponents = new List<SlotComponent>(_staticData.inventoryCapacity);
 
             for (int i = 0; i < _staticData.inventoryCapacity; i++)
             {
-                inventoryComponent.slotComponents.Add(new SlotComponent());
+                inventoryComponent.slotComponents.Add(GenerateEmptySlot());
             }
 
             var inventoryButton = Object.Instantiate(_staticData.inventoryButtonPrefab, Constants.buttonsPanel);
@@ -36,18 +38,27 @@ namespace Ecs
             _inventoryButton = inventoryEntity.Get<ButtonComponent>().button;
 
             var inventoryScrollView = Object.Instantiate(_staticData.inventoryScrollViewPrefab, Constants.buttonsPanel);
-            var closeInventoryButton = inventoryScrollView.GetComponentInChildren<Button>();
+            var closeInventoryButton = inventoryScrollView.GetComponentsInChildren<Button>()
+                .First(button => button.CompareTag("CloseButton"));
             inventoryEntity.Get<ScrollViewComponent>() = new ScrollViewComponent()
             {
                 scrollView = inventoryScrollView,
                 closeButton = closeInventoryButton
             };
             _inventoryScrollView = inventoryEntity.Get<ScrollViewComponent>().scrollView;
-            
+
             inventoryButton.onClick.AddListener(OnClickEvent);
             closeInventoryButton.onClick.AddListener(OnCloseEvent);
 
             inventoryEntity.Get<InventoryComponent>() = inventoryComponent;
+        }
+
+        private SlotComponent GenerateEmptySlot()
+        {
+            return new SlotComponent()
+            {
+                itemSprite = _staticData.emptySprite
+            };
         }
 
         private void OnCloseEvent()
