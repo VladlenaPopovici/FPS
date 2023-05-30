@@ -2,7 +2,7 @@
 
 namespace Ecs
 {
-    public struct ItemComponent
+    public class ItemComponent
     {
         public Item item;
         public byte quantity;

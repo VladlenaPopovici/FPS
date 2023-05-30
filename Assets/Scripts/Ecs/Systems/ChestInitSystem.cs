@@ -1,9 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using Ecs.Data;
 using Inventory;
 using Leopotam.Ecs;
 using UnityEngine;
+using UnityEngine.EventSystems;
 using UnityEngine.UI;
 using Utils;
 using Object = UnityEngine.Object;
@@ -23,11 +25,32 @@ namespace Ecs
         private StaticData _staticData;
         private ScrollRect _chestInventory;
         private Button _openChestButton;
-
+        private SlotMetaData _chestSlotMetaData;
         public void Init()
         {
             var parentChest = Object.Instantiate(_staticData.parentChest);
             _chestInventory = Object.Instantiate(_staticData.chestInventoryPrefab, Constants.buttonsPanel);
+            var clickedChestSlotEntity = _world.NewEntity();
+            _chestSlotMetaData = new SlotMetaData()
+            {
+                isHandled = true
+            };
+            clickedChestSlotEntity.Get<ChestTag>();
+            clickedChestSlotEntity.Get<LatestClickedSlotComponent>() = new LatestClickedSlotComponent()
+            {
+                slotMetaData = _chestSlotMetaData
+            };
+
+            for (int i = 0; i < 9; i++)
+            {
+                var slotButton = _chestInventory.content.GetChild(i).GetComponent<Button>();
+                var i1 = i;
+                slotButton.onClick.AddListener(delegate
+                {
+                    _chestSlotMetaData.index = (byte)i1;
+                    _chestSlotMetaData.isHandled = false;
+                });
+            }
 
             for (var i = 0; i < 10; i++)
             {
@@ -83,7 +106,7 @@ namespace Ecs
             };
             chestButtonEntity.Get<OpenChestButtonTag>();
 
-            _chestInventory.GetComponentInChildren<Button>().onClick.AddListener(CloseChestInventory);
+            _chestInventory.GetComponentsInChildren<Button>().First(button => button.CompareTag("CloseButton")).onClick.AddListener(CloseChestInventory);
         }
 
         private SlotComponent GenerateRandomSlot()
@@ -103,6 +126,8 @@ namespace Ecs
                 slotComponent.itemComponent = itemComponent;
             }
 
+            slotComponent.itemSprite = GetSpriteByItemType(slotComponent.itemComponent?.item.itemType);
+
             return slotComponent;
         }
 
@@ -112,17 +137,16 @@ namespace Ecs
             var item = new Item
             {
                 itemType = itemType,
-                itemSprite = GetSpriteByItemType(itemType)
             };
             return item;
         }
 
-        private Sprite GetSpriteByItemType(ItemType type) => type switch
+        private Sprite GetSpriteByItemType(ItemType? type) => type switch
         {
             ItemType.HealthPotion => _staticData.hpPotionImage,
             ItemType.SpeedPotion => _staticData.speedPotion,
             ItemType.Weapon => _staticData.weaponImage,
-            _ => throw new ArgumentOutOfRangeException("Non default item type")
+            _ => _staticData.emptySprite,
         };
 
         private void OpenChestInventory()

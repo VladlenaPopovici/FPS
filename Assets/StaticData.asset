@@ -28,3 +28,5 @@ MonoBehaviour:
   chestInventoryPrefab: {fileID: 5996034699765423380, guid: 56c38bb4474973d40a51f3d2dba12778, type: 3}
   hpPotionImage: {fileID: 21300000, guid: 91c1dc252cf06e6408d34e9cb3018f57, type: 3}
   speedPotion: {fileID: 21300000, guid: 973ad239211c3794288dde4dccfbe178, type: 3}
+  weaponImage: {fileID: 21300000, guid: 3a6a9a7e388714c4495f68c526a83ad4, type: 3}
+  emptySprite: {fileID: 21300000, guid: 0525793900d728a42936791a8a6de63b, type: 3}

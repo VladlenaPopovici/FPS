@@ -26,6 +26,7 @@ namespace Ecs.Data
         public Sprite hpPotionImage;
         public Sprite speedPotion;
         public Sprite weaponImage;
+        public Sprite emptySprite;
         // public SerializableDictionary<ItemType, Sprite> ItemTypeSprite;
     }
 }
