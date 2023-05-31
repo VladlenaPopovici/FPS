@@ -1,0 +1,33 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5625a554f04c4136bb2e7764dc184013, type: 3}
+  m_Name: StaticData
+  m_EditorClassIdentifier: 
+  weaponPrefabs:
+  - {fileID: 3788719308072773664, guid: 1ef1676ddd8d0a645894b932a5ec66cb, type: 3}
+  playerPrefab: {fileID: 881173818604223431, guid: 31e092398b1da59428a63904e4c4258d, type: 3}
+  weaponOffset: {x: 0.05, y: 0.47, z: 1.02}
+  inventoryCapacity: 9
+  inventoryButtonPrefab: {fileID: 5692573735612513453, guid: 346b2bffb59163c44882734b9234311a, type: 3}
+  inventoryScrollViewPrefab: {fileID: 5996034699765423380, guid: 3946715f54a94d742ad2cd1fb0e0e6d1, type: 3}
+  chestPrefab: {fileID: 555133621666883522, guid: 56a8bad530c6e8a4e830ee7148265b83, type: 3}
+  parentChest: {fileID: 7127765680766477201, guid: 23585bf419d22f14886341e2a8f4182c, type: 3}
+  layerMask:
+    serializedVersion: 2
+    m_Bits: 64
+  openChestButtonPrefab: {fileID: 3436643915515164167, guid: da4c52a17505ae849ac007ae17dd2da3, type: 3}
+  chestInventoryPrefab: {fileID: 5996034699765423380, guid: 56c38bb4474973d40a51f3d2dba12778, type: 3}
+  hpPotionImage: {fileID: 21300000, guid: 91c1dc252cf06e6408d34e9cb3018f57, type: 3}
+  speedPotion: {fileID: 21300000, guid: 973ad239211c3794288dde4dccfbe178, type: 3}
+  weaponImage: {fileID: 21300000, guid: 3a6a9a7e388714c4495f68c526a83ad4, type: 3}
+  emptySprite: {fileID: 21300000, guid: 0525793900d728a42936791a8a6de63b, type: 3}
+  healthBarImage: {fileID: 8487636021505596770, guid: ede75359c4246ed4093dd84afe7e910b, type: 3}
