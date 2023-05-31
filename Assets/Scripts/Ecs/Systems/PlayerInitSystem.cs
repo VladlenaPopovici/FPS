@@ -1,6 +1,7 @@
 ﻿using Ecs.Data;
 using Leopotam.Ecs;
 using UnityEngine;
+using Utils;
 
 namespace Ecs
 {
@@ -14,8 +15,16 @@ namespace Ecs
         {
             EcsEntity playerEntity = _world.NewEntity();
 
+            playerEntity.Get<PlayerTag>();
             playerEntity.Get<PlayerComponent>();
-
+            
+            var healthBar = Object.Instantiate(staticData.healthBarImage, Constants.buttonsPanel);
+            playerEntity.Get<HealthBarComponent>() = new HealthBarComponent()
+            {
+                hp = 100,
+                hpBar = healthBar
+            };
+            
             GameObject playerGO = Object.Instantiate(staticData.playerPrefab, sceneData.playerSpawnPoint.position, Quaternion.identity);
             ref var modelComponent = ref playerEntity.Get<ModelComponent>();
             modelComponent.modelTransform = playerGO.transform;

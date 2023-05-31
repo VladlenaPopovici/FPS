@@ -6,6 +6,7 @@ using UnityEngine.UI;
 using UnityEngine.UIElements;
 using Utils;
 using Button = UnityEngine.UI.Button;
+using Image = UnityEngine.UI.Image;
 
 namespace Ecs.Data
 {
@@ -27,8 +28,7 @@ namespace Ecs.Data
         public Sprite speedPotion;
         public Sprite weaponImage;
         public Sprite emptySprite;
-        // public SerializableDictionary<ItemType, Sprite> ItemTypeSprite;
-        
+        public Image healthBarImage;        
         
 
         public Sprite GetSpriteByItemType(ItemType? type) => type switch
