@@ -15,6 +15,8 @@ namespace Ecs.Systems
 
         private EcsFilter<ChestTag, LatestClickedSlotComponent> _latestClickedChestSlotFilter;
         private EcsFilter<TemporaryInventoryComponent> _temporaryInventoryFilter;
+        private EcsFilter<PlayerTag, InventoryTag, InventoryComponent> _playerInventoryFilter;
+
         private StaticData _staticData;
 
         public void Run()
@@ -48,11 +50,20 @@ namespace Ecs.Systems
                     {
                         var image = scrollView.content.GetChild(j).GetChild(0).GetComponent<Image>();
                         image.overrideSprite = _staticData.emptySprite;
+                        scrollView.content.GetChild(j).GetChild(1).GetComponent<TextMeshProUGUI>().text = ""; 
                         continue;
                     }
 
                     if (slotMetaData != null && !slotMetaData.isHandled && slotMetaData.index == j)
                     {
+                        var isFitting = true;
+                        foreach (var k in _playerInventoryFilter)
+                        {
+                            var playerInventoryComponent = _playerInventoryFilter.Get3(k);
+                            isFitting = playerInventoryComponent.IsFitting(itemComponent.item.itemType);
+                        }
+                        if (!isFitting) continue;
+                        
                         foreach (var k in _temporaryInventoryFilter)
                         {
                             ref var temporaryInventoryComponent = ref _temporaryInventoryFilter.Get1(k);
