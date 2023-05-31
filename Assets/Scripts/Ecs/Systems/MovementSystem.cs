@@ -23,7 +23,8 @@ namespace Ecs
                 ref var speed = ref movableComponent.speed;
 
                 var rawDirection = (direction.x * transform.right) + (direction.z * transform.forward);
-                characterController.Move(rawDirection * speed * Time.deltaTime);
+                var normalizedDirection = rawDirection.normalized;
+                characterController.Move(normalizedDirection * speed * Time.deltaTime);
             }
         }
     }
