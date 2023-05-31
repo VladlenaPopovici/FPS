@@ -21,7 +21,7 @@ namespace Ecs
             var healthBar = Object.Instantiate(staticData.healthBarImage, Constants.buttonsPanel);
             playerEntity.Get<HealthBarComponent>() = new HealthBarComponent()
             {
-                hp = 100,
+                hp = 50,
                 hpBar = healthBar
             };
             

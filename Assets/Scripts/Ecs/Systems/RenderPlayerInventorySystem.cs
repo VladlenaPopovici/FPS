@@ -104,6 +104,16 @@ namespace Ecs.Systems
                 for (int j = 0; j < inventoryComponent.slotComponents.Count; j++)
                 {
                     var slot = inventoryComponent.slotComponents[j];
+                    
+                    // empty slot
+                    if (slot.itemComponent == null)
+                    {
+                        var image = scrollViewComponent.scrollView.content.GetChild(j).GetChild(0).GetComponent<Image>();
+                        image.overrideSprite = _staticData.emptySprite;
+                        scrollViewComponent.scrollView.content.GetChild(j).GetChild(1).GetComponent<TextMeshProUGUI>().text = ""; 
+                        continue;
+                    }
+                    
                     scrollViewComponent.scrollView.content.GetChild(j).GetChild(0).GetComponent<Image>()
                         .overrideSprite = slot.itemSprite;
 

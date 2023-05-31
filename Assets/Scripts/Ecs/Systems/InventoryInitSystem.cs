@@ -18,11 +18,38 @@ namespace Ecs
 
         public void Init()
         {
+            _inventoryScrollView = Object.Instantiate(_staticData.inventoryScrollViewPrefab, Constants.buttonsPanel);
+
+            var clickedPlayerInventorySlotEntity = _world.NewEntity();
+            var chestSlotMetaData = new SlotMetaData()
+            {
+                isHandled = true
+            };
+            clickedPlayerInventorySlotEntity.Get<InventoryTag>();
+            clickedPlayerInventorySlotEntity.Get<LatestClickedSlotComponent>() = new LatestClickedSlotComponent()
+            {
+                slotMetaData = chestSlotMetaData
+            };
+
+            for (int i = 0; i < 9; i++)
+            {
+                var slotButton = _inventoryScrollView.content.GetChild(i).GetComponent<Button>();
+                var i1 = i;
+                slotButton.onClick.AddListener(delegate
+                {
+                    chestSlotMetaData.index = (byte)i1;
+                    chestSlotMetaData.isHandled = false;
+                });
+            }
+
             var inventoryEntity = _world.NewEntity();
             inventoryEntity.Get<PlayerTag>();
             inventoryEntity.Get<InventoryTag>();
-            var inventoryComponent = new InventoryComponent();
-            inventoryComponent.slotComponents = new List<SlotComponent>(_staticData.inventoryCapacity);
+            var inventoryComponent = new InventoryComponent
+            {
+                slotComponents = new List<SlotComponent>(_staticData.inventoryCapacity)
+            };
+
 
             for (int i = 0; i < _staticData.inventoryCapacity; i++)
             {
@@ -37,12 +64,11 @@ namespace Ecs
             };
             _inventoryButton = inventoryEntity.Get<ButtonComponent>().button;
 
-            var inventoryScrollView = Object.Instantiate(_staticData.inventoryScrollViewPrefab, Constants.buttonsPanel);
-            var closeInventoryButton = inventoryScrollView.GetComponentsInChildren<Button>()
+            var closeInventoryButton = _inventoryScrollView.GetComponentsInChildren<Button>()
                 .First(button => button.CompareTag("CloseButton"));
             inventoryEntity.Get<ScrollViewComponent>() = new ScrollViewComponent()
             {
-                scrollView = inventoryScrollView,
+                scrollView = _inventoryScrollView,
                 closeButton = closeInventoryButton
             };
             _inventoryScrollView = inventoryEntity.Get<ScrollViewComponent>().scrollView;

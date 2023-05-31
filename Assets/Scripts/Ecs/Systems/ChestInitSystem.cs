@@ -25,20 +25,19 @@ namespace Ecs
         private StaticData _staticData;
         private ScrollRect _chestInventory;
         private Button _openChestButton;
-        private SlotMetaData _chestSlotMetaData;
         public void Init()
         {
-            var parentChest = Object.Instantiate(_staticData.parentChest);
             _chestInventory = Object.Instantiate(_staticData.chestInventoryPrefab, Constants.buttonsPanel);
+            
             var clickedChestSlotEntity = _world.NewEntity();
-            _chestSlotMetaData = new SlotMetaData()
+            var chestSlotMetaData = new SlotMetaData()
             {
                 isHandled = true
             };
             clickedChestSlotEntity.Get<ChestTag>();
             clickedChestSlotEntity.Get<LatestClickedSlotComponent>() = new LatestClickedSlotComponent()
             {
-                slotMetaData = _chestSlotMetaData
+                slotMetaData = chestSlotMetaData
             };
 
             for (int i = 0; i < 9; i++)
@@ -47,11 +46,12 @@ namespace Ecs
                 var i1 = i;
                 slotButton.onClick.AddListener(delegate
                 {
-                    _chestSlotMetaData.index = (byte)i1;
-                    _chestSlotMetaData.isHandled = false;
+                    chestSlotMetaData.index = (byte)i1;
+                    chestSlotMetaData.isHandled = false;
                 });
             }
-
+            
+            var parentChest = Object.Instantiate(_staticData.parentChest);
             for (var i = 0; i < 10; i++)
             {
                 var position = new Vector3
