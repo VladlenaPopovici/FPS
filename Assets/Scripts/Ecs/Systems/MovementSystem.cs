@@ -7,7 +7,7 @@ namespace Ecs
     public sealed class MovementSystem : IEcsRunSystem
     {
         private readonly EcsFilter<ModelComponent, MovableComponent, DirectionComponent> movableFilter = null;
-
+        private EcsFilter<SpeedBarComponent> _speedBarFilter;
         public void Run()
         {
             foreach (var i in movableFilter)
@@ -21,7 +21,19 @@ namespace Ecs
 
                 ref var characterController = ref movableComponent.characterController;
                 ref var speed = ref movableComponent.speed;
+                
+                foreach (var j in _speedBarFilter)
+                {
+                    ref var speedBarComponent = ref _speedBarFilter.Get1(j);
 
+                    speed = speedBarComponent.fullBarValue switch
+                    {
+                        0 => 5,
+                        1 => 10,
+                        _ => speed
+                    };
+                }
+                
                 var rawDirection = (direction.x * transform.right) + (direction.z * transform.forward);
                 var normalizedDirection = rawDirection.normalized;
                 characterController.Move(normalizedDirection * speed * Time.deltaTime);
