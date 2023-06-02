@@ -54,6 +54,7 @@ public sealed class EcsGameStartup : MonoBehaviour
             .Add(new ChestInitSystem())
             .Add(new TemporaryInventoryInitSystem())
             .Add(new HealthBarSystem())
+            .Add(new SpeedBarSystem())
             .Add(new PlayerInputSystem())
             .Add(new MovementSystem())
             .Add(new PlayerRightInputSystem())

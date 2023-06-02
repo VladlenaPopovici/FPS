@@ -24,6 +24,12 @@ namespace Ecs
                 hp = 50,
                 hpBar = healthBar
             };
+
+            var speedBar = Object.Instantiate(staticData.speedBarImage, Constants.buttonsPanel);
+            playerEntity.Get<SpeedBarComponent>() = new SpeedBarComponent()
+            {
+                speedBarImage = speedBar
+            };
             
             GameObject playerGO = Object.Instantiate(staticData.playerPrefab, sceneData.playerSpawnPoint.position, Quaternion.identity);
             ref var modelComponent = ref playerEntity.Get<ModelComponent>();

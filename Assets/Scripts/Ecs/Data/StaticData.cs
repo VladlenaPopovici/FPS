@@ -28,7 +28,8 @@ namespace Ecs.Data
         public Sprite speedPotion;
         public Sprite weaponImage;
         public Sprite emptySprite;
-        public Image healthBarImage;        
+        public Image healthBarImage;
+        public Image speedBarImage;
         
 
         public Sprite GetSpriteByItemType(ItemType? type) => type switch

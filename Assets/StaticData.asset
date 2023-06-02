@@ -31,3 +31,4 @@ MonoBehaviour:
   weaponImage: {fileID: 21300000, guid: 3a6a9a7e388714c4495f68c526a83ad4, type: 3}
   emptySprite: {fileID: 21300000, guid: 0525793900d728a42936791a8a6de63b, type: 3}
   healthBarImage: {fileID: 8487636021505596770, guid: ede75359c4246ed4093dd84afe7e910b, type: 3}
+  speedBarImage: {fileID: 8487636021505596770, guid: 35c496e55a1c5fe45927ec4d7f57d053, type: 3}

@@ -10,6 +10,7 @@ namespace Ecs.Systems
         private EcsFilter<InventoryTag, LatestClickedSlotComponent> _slotClickedFilter;
         private EcsFilter<PlayerTag, InventoryComponent> _playerInventoryFilter;
         private EcsFilter<PlayerTag, HealthBarComponent> _healthBarFilter;
+        private EcsFilter<PlayerTag, SpeedBarComponent> _speedBarFilter;
         private StaticData _staticData;
 
         public void Run()
@@ -34,7 +35,7 @@ namespace Ecs.Systems
                                     ProcessHealthPotion(ref slot);
                                     break;
                                 case ItemType.SpeedPotion:
-                                    // TODO
+                                    ProcessSpeedPotion(ref slot);
                                     break;
                                 case ItemType.Weapon:
                                     // TODO
@@ -42,6 +43,21 @@ namespace Ecs.Systems
                             }
                         }
                     }
+                }
+            }
+        }
+
+        private void ProcessSpeedPotion(ref SlotComponent slot)
+        {
+            foreach (var i in _speedBarFilter)
+            {
+                ref var speedBarComponent = ref _speedBarFilter.Get2(i);
+                speedBarComponent.fullBarValue = 1f;
+                speedBarComponent.decreaseAmount = 0.2f;
+                slot.itemComponent!.quantity--;
+                if (slot.itemComponent.quantity == 0)
+                {
+                    slot.itemComponent = null;
                 }
             }
         }
