@@ -9,8 +9,8 @@ namespace Ecs
     public sealed class PlayerInitSystem : IEcsInitSystem
     {
         private readonly EcsWorld _world = null;
-        private StaticData staticData; 
-        private SceneData sceneData;
+        private StaticData _staticData; 
+        private SceneData _sceneData;
         private Button _jumpButton;
         
         private EcsFilter<PlayerComponent, JumpComponent> _jumpFilter;
@@ -18,12 +18,12 @@ namespace Ecs
 
         public void Init()
         {
-            EcsEntity playerEntity = _world.NewEntity();
+            var playerEntity = _world.NewEntity();
 
             playerEntity.Get<PlayerTag>();
             playerEntity.Get<PlayerComponent>() = new PlayerComponent()
             {
-                playerCharacterController = staticData.characterController
+                playerCharacterController = _staticData.characterController
             };
 
             playerEntity.Get<JumpComponent>() = new JumpComponent()
@@ -32,27 +32,28 @@ namespace Ecs
                 gravity = -9.8f,
             };
             
-            var healthBar = Object.Instantiate(staticData.healthBarImage, Constants.buttonsPanel);
+            var healthBar = Object.Instantiate(_staticData.healthBarImage, Constants.buttonsPanel);
             playerEntity.Get<HealthBarComponent>() = new HealthBarComponent()
             {
                 hp = 50,
                 hpBar = healthBar
             };
 
-            var speedBar = Object.Instantiate(staticData.speedBarImage, Constants.buttonsPanel);
+            var speedBar = Object.Instantiate(_staticData.speedBarImage, Constants.buttonsPanel);
             playerEntity.Get<SpeedBarComponent>() = new SpeedBarComponent()
             {
                 speedBarImage = speedBar
             };
             
-            GameObject playerGO = Object.Instantiate(staticData.playerPrefab, sceneData.playerSpawnPoint.position, Quaternion.identity);
+            var playerGo = Object.Instantiate(_staticData.playerPrefab, _sceneData.playerSpawnPoint.position, Quaternion.identity);
             ref var modelComponent = ref playerEntity.Get<ModelComponent>();
-            modelComponent.modelTransform = playerGO.transform;
-        }
+            modelComponent.modelTransform = playerGo.transform;
 
-        private void Jump()
-        {
-            
+            playerEntity.Get<WeaponComponent>() = new WeaponComponent()
+            {
+                isFullAuto = true,
+                fireRate = 1f
+            };
         }
     }
 }

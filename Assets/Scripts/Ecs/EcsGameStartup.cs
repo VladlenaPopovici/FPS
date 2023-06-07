@@ -53,6 +53,7 @@ public sealed class EcsGameStartup : MonoBehaviour
             .Add(new InventoryInitSystem())
             .Add(new ChestInitSystem())
             .Add(new TemporaryInventoryInitSystem())
+            .Add(new ShootingButtonInitSystem())
             .Add(new PlayerJumpSystem())
             .Add(new HealthBarSystem())
             .Add(new SpeedBarSystem())
@@ -64,6 +65,7 @@ public sealed class EcsGameStartup : MonoBehaviour
             .Add(new GenerateChestInventorySlotsSystem())
             .Add(new RenderPlayerInventorySystem())
             .Add(new UseInventoryItemsSystem())
+            .Add(new ShootingSystem())
             ;
     }
 

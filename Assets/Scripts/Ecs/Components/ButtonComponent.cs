@@ -6,6 +6,6 @@ namespace Ecs
     public struct ButtonComponent
     {
         public Button button;
-        public bool isVisible;
+        public bool isVisible;  // TODO: delete or refactor
     }
 }
