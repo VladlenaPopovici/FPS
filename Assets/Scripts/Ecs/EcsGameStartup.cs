@@ -66,6 +66,7 @@ public sealed class EcsGameStartup : MonoBehaviour
             .Add(new RenderPlayerInventorySystem())
             .Add(new UseInventoryItemsSystem())
             .Add(new ShootingSystem())
+            .Add(new BulletMovementSystem())
             ;
     }
 

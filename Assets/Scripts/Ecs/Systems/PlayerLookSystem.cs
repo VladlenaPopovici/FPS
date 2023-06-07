@@ -5,28 +5,28 @@ namespace Ecs
 {
     public sealed class PlayerLookSystem : IEcsInitSystem, IEcsRunSystem
     {
-        private readonly EcsFilter<PlayerComponent> playerFilter = null;
-        private readonly EcsFilter<PlayerTag, ModelComponent, LookDirectionComponent> lookFilter = null;
+        private readonly EcsFilter<PlayerComponent> _playerFilter = null;
+        private readonly EcsFilter<PlayerTag, ModelComponent, LookDirectionComponent> _lookFilter = null;
 
-        private Quaternion startTransformRotation;
+        private Quaternion _startTransformRotation;
 
         public void Init()
         {
-            foreach (var i in playerFilter)
+            foreach (var i in _playerFilter)
             {
-                ref var playerEntity = ref playerFilter.GetEntity(0);
+                ref var playerEntity = ref _playerFilter.GetEntity(0);
                 ref var model = ref playerEntity.Get<ModelComponent>();
 
-                startTransformRotation = model.modelTransform.rotation;
+                _startTransformRotation = model.modelTransform.rotation;
             }
         }
 
         public void Run()
         {
-            foreach (var i in lookFilter)
+            foreach (var i in _lookFilter)
             {
-                ref var model = ref lookFilter.Get2(i);
-                ref var lookComponent = ref lookFilter.Get3(i);
+                ref var model = ref _lookFilter.Get2(i);
+                ref var lookComponent = ref _lookFilter.Get3(i);
 
                 var axisX = lookComponent.direction.x;
                 var axisY = lookComponent.direction.y;
@@ -36,7 +36,7 @@ namespace Ecs
                 var rotateY = 
                     Quaternion.AngleAxis(axisY, Vector3.right * Time.deltaTime * lookComponent.mouseSensitivity);
                 
-                model.modelTransform.rotation = startTransformRotation * rotateX;
+                model.modelTransform.rotation = _startTransformRotation * rotateX;
                 lookComponent.cameraTransform.rotation = model.modelTransform.rotation * rotateY;
             }
         }

@@ -33,3 +33,5 @@ MonoBehaviour:
   healthBarImage: {fileID: 8487636021505596770, guid: ede75359c4246ed4093dd84afe7e910b, type: 3}
   speedBarImage: {fileID: 8487636021505596770, guid: 35c496e55a1c5fe45927ec4d7f57d053, type: 3}
   jumpButtonPrefab: {fileID: 3355804755896326161, guid: 855e3c1fc18e18544aa1c47f8e91b250, type: 3}
+  shootButtonPrefab: {fileID: 5251785439251533432, guid: 55e64c5be27665b45952d348617f363c, type: 3}
+  bulletPrefab: {fileID: 8257285659191405703, guid: 1d77e163515fa87488f50e480bbe56cf, type: 3}

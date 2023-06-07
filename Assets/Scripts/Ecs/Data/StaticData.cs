@@ -30,9 +30,11 @@ namespace Ecs.Data
         public Sprite emptySprite;
         public Image healthBarImage;
         public Image speedBarImage;
+        
         public Button jumpButtonPrefab;
         public Button shootButtonPrefab;
-        
+        public GameObject bulletPrefab;
+
 
         public Sprite GetSpriteByItemType(ItemType? type) => type switch
         {

@@ -23,7 +23,7 @@ namespace Ecs
             playerEntity.Get<PlayerTag>();
             playerEntity.Get<PlayerComponent>() = new PlayerComponent()
             {
-                playerCharacterController = _staticData.characterController
+                PlayerCharacterController = _staticData.characterController
             };
 
             playerEntity.Get<JumpComponent>() = new JumpComponent()
