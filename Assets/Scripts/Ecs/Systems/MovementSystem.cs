@@ -35,6 +35,7 @@ namespace Ecs
                 }
                 
                 var rawDirection = (direction.x * transform.right) + (direction.z * transform.forward);
+                rawDirection.y -= Mathf.Sqrt(500f * -3.0f * -9.8f); // jumpforce, const, gravity TODO: extract from filter
                 var normalizedDirection = rawDirection.normalized;
                 characterController.Move(normalizedDirection * speed * Time.deltaTime);
             }

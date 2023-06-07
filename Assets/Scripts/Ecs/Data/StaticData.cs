@@ -15,7 +15,7 @@ namespace Ecs.Data
     {
         public List<GameObject> weaponPrefabs;
         public GameObject playerPrefab;
-        public Vector3 weaponOffset;
+        public CharacterController characterController;
         public int inventoryCapacity;
         public Button inventoryButtonPrefab;
         public ScrollRect inventoryScrollViewPrefab;
@@ -30,6 +30,7 @@ namespace Ecs.Data
         public Sprite emptySprite;
         public Image healthBarImage;
         public Image speedBarImage;
+        public Button jumpButtonPrefab;
         
 
         public Sprite GetSpriteByItemType(ItemType? type) => type switch
