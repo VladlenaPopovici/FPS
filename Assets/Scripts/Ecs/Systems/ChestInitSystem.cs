@@ -14,6 +14,7 @@ namespace Ecs
 {
     public sealed class ChestInitSystem : IEcsInitSystem
     {
+        //TODO move to static data
         private const float MinX = -50;
         private const float MaxX = 50;
         private const float MinZ = -50;

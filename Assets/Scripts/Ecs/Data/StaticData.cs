@@ -35,6 +35,11 @@ namespace Ecs.Data
         public Button shootButtonPrefab;
         public GameObject bulletPrefab;
 
+        public GameObject parentNature;
+        public GameObject[] trees;
+        public GameObject[] plants;
+        public GameObject[] rocks;
+
 
         public Sprite GetSpriteByItemType(ItemType? type) => type switch
         {

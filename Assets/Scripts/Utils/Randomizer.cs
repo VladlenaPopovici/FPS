@@ -20,6 +20,11 @@ namespace Utils
             return enumValues[randomIndex];
         }
 
+        public static T GetRandomArrayElement<T>(T[] array)
+        {
+            return array[_random.Next(array.Length)];
+        }
+
         public static float GetRandomInRange(float min, float max)
         {
             return (float)(_random.NextDouble() * (max - min) + min);

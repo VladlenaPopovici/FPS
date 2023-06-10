@@ -35,3 +35,17 @@ MonoBehaviour:
   jumpButtonPrefab: {fileID: 3355804755896326161, guid: 855e3c1fc18e18544aa1c47f8e91b250, type: 3}
   shootButtonPrefab: {fileID: 5251785439251533432, guid: 55e64c5be27665b45952d348617f363c, type: 3}
   bulletPrefab: {fileID: 8257285659191405703, guid: 1d77e163515fa87488f50e480bbe56cf, type: 3}
+  parentNature: {fileID: 5852202103167916792, guid: 6cf050405d77c0e4baa40331f36d2a6c, type: 3}
+  trees:
+  - {fileID: 8758888183437167707, guid: 2caeb99d3229fee4aa4f3bc8c1c8fc07, type: 3}
+  - {fileID: 6759448882052246062, guid: 9787e9e0fbeb87a45beb0d9d4e03edca, type: 3}
+  - {fileID: 2035405497521452412, guid: d76f8cf6d6d23834d97c23574821f38e, type: 3}
+  - {fileID: 4241147409563934762, guid: 4b4ea87231b37c148abee861d3c0001e, type: 3}
+  - {fileID: 6684772291651960628, guid: 2510962d06f613b43a444e7178ccd6ec, type: 3}
+  plants:
+  - {fileID: 1810836374240917309, guid: 962996e23ffcbc44d92fb20cd03940cd, type: 3}
+  - {fileID: 5707813131339405077, guid: b995a96a7ca36d04b851e46870b5aadf, type: 3}
+  - {fileID: 3637134996410867462, guid: 9c6178fe943216540b276b975dafae16, type: 3}
+  rocks:
+  - {fileID: 8672003455025440434, guid: aa0ba387f794005419a74fdfff3da4df, type: 3}
+  - {fileID: 3133429536943949068, guid: 25cb56d59f80f614b9da0e9a36c48a05, type: 3}
