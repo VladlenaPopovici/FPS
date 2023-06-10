@@ -4,7 +4,7 @@ using UnityEngine;
 
 namespace Ecs.Systems
 {
-    public sealed class ShootingSystem : IEcsRunSystem
+    public sealed class PlayerShootingSystem : IEcsRunSystem
     {
         private EcsFilter<ButtonHoldComponent> _buttonHoldFilter;
         private EcsFilter<PlayerTag, WeaponComponent> _playerWeaponFilter;

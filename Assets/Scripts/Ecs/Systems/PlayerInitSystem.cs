@@ -28,7 +28,7 @@ namespace Ecs
 
             playerEntity.Get<JumpComponent>() = new JumpComponent()
             {
-                jumpForce = 500,
+                jumpForce = 5,
                 gravity = -9.8f,
             };
             
@@ -59,7 +59,7 @@ namespace Ecs
             
             playerEntity.Get<WeaponComponent>() = new WeaponComponent()
             {
-                isFullAuto = true,
+                isFullAuto = false,
                 fireRate = 1f
             };
         }

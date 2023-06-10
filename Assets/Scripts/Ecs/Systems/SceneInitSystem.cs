@@ -34,7 +34,7 @@ namespace Ecs.Systems
 
         private void GeneratePlants(GameObject parentPlants)
         {
-            const int numberOfPlants = 50;
+            const int numberOfPlants = 100;
             GenerateObjects(parentPlants, numberOfPlants, GeneratePlant);
         }
 
@@ -151,7 +151,7 @@ namespace Ecs.Systems
                 };
             }
 
-            // Debug.Log("couldn't fix collision");
+            Debug.Log("couldn't fix collision");
         }
     }
 }

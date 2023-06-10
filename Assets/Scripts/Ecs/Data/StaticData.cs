@@ -40,6 +40,7 @@ namespace Ecs.Data
         public GameObject[] plants;
         public GameObject[] rocks;
 
+        public GameObject enemyPrefab;
 
         public Sprite GetSpriteByItemType(ItemType? type) => type switch
         {

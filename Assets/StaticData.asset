@@ -49,3 +49,4 @@ MonoBehaviour:
   rocks:
   - {fileID: 8672003455025440434, guid: aa0ba387f794005419a74fdfff3da4df, type: 3}
   - {fileID: 3133429536943949068, guid: 25cb56d59f80f614b9da0e9a36c48a05, type: 3}
+  enemyPrefab: {fileID: 8356104788382652267, guid: a32b89e71fbd51d4d9b3d270682a75ce, type: 3}

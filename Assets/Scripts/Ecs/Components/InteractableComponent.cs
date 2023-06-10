@@ -18,6 +18,7 @@ namespace Ecs
         Chest,
         Tree,
         Rock,
-        Player
+        Player,
+        Enemy
     }
 }
