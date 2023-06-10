@@ -62,7 +62,6 @@ namespace Ecs.Systems
                             }
                             else
                             {
-                                Debug.Log("found non empty slot");
                                 slotToAssign.itemComponent.quantity++;
                             }
 

@@ -12,7 +12,7 @@ GameObject:
   - component: {fileID: 2662064338416897383}
   - component: {fileID: -9199231852333367069}
   - component: {fileID: -917770636688087601}
-  - component: {fileID: 3390673332308048672}
+  - component: {fileID: -7478316720063981516}
   m_Layer: 6
   m_Name: Old Chest
   m_TagString: Untagged
@@ -76,7 +76,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   value:
     transform: {fileID: 936726435520118136}
---- !u!65 &3390673332308048672
+    collider: {fileID: 0}
+    type: 0
+    isNear: 0
+--- !u!65 &-7478316720063981516
 BoxCollider:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -87,8 +90,8 @@ BoxCollider:
   m_IsTrigger: 0
   m_Enabled: 1
   serializedVersion: 2
-  m_Size: {x: 1.5061653, y: 0.6725308, z: 1}
-  m_Center: {x: -0.05055198, y: 0.044795275, z: 0}
+  m_Size: {x: 1.5061653, y: 0.88, z: 1}
+  m_Center: {x: 0, y: 0, z: 0}
 --- !u!1 &2926320452223950100
 GameObject:
   m_ObjectHideFlags: 0

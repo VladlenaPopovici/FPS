@@ -10,28 +10,28 @@ namespace Ecs.Systems
     {
         private StaticData _staticData;
         private EcsWorld _world;
-        
+
         public void Init()
         {
-                var button = Object.Instantiate(_staticData.shootButtonPrefab, Constants.buttonsPanel);
-                var eventTrigger = button.GetComponent<EventTrigger>();
-                
-                // Create the tap event trigger
-                CreateTapTrigger(eventTrigger);
+            var bulletParent = Object.Instantiate(_staticData.bulletParentPrefab);
+            _staticData.bulletParent = bulletParent; 
 
-                // Create the release event trigger
-                CreateReleaseTrigger(eventTrigger);
+            var button = Object.Instantiate(_staticData.shootButtonPrefab, Constants.buttonsPanel);
+            var eventTrigger = button.GetComponent<EventTrigger>();
 
-                var shootButtonEntity = _world.NewEntity();
-                shootButtonEntity.Get<ShootingButtonTag>();
-                shootButtonEntity.Get<ButtonComponent>() = new ButtonComponent()
-                {
-                    button = button
-                };
-                shootButtonEntity.Get<ButtonHoldComponent>() = new ButtonHoldComponent()
-                {
-                    holdDuration = 1f
-                };
+            // Create the tap event trigger
+            CreateTapTrigger(eventTrigger);
+
+            // Create the release event trigger
+            CreateReleaseTrigger(eventTrigger);
+
+            var shootButtonEntity = _world.NewEntity();
+            shootButtonEntity.Get<ShootingButtonTag>();
+            shootButtonEntity.Get<ButtonComponent>() = new ButtonComponent()
+            {
+                button = button
+            };
+            shootButtonEntity.Get<ButtonHoldComponent>() = new ButtonHoldComponent();
         }
 
         private void CreateReleaseTrigger(EventTrigger eventTrigger)
@@ -56,7 +56,8 @@ namespace Ecs.Systems
 
         private void OnHoldButtonClicked()
         {
-            var buttonHoldFilter = (EcsFilter<ButtonHoldComponent>)_world.GetFilter(typeof(EcsFilter<ButtonHoldComponent>));
+            var buttonHoldFilter =
+                (EcsFilter<ButtonHoldComponent>)_world.GetFilter(typeof(EcsFilter<ButtonHoldComponent>));
             foreach (var i in buttonHoldFilter)
             {
                 ref var buttonHold = ref buttonHoldFilter.Get1(i);
@@ -65,10 +66,11 @@ namespace Ecs.Systems
                 buttonHold.holdTimer = 0f;
             }
         }
-        
+
         private void OnHoldButtonReleased()
         {
-            var buttonHoldFilter = (EcsFilter<ButtonHoldComponent>)_world.GetFilter(typeof(EcsFilter<ButtonHoldComponent>));
+            var buttonHoldFilter =
+                (EcsFilter<ButtonHoldComponent>)_world.GetFilter(typeof(EcsFilter<ButtonHoldComponent>));
             foreach (var i in buttonHoldFilter)
             {
                 ref var buttonHold = ref buttonHoldFilter.Get1(i);

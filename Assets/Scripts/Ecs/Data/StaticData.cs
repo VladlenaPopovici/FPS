@@ -33,6 +33,7 @@ namespace Ecs.Data
         
         public Button jumpButtonPrefab;
         public Button shootButtonPrefab;
+        [FormerlySerializedAs("bulletParent")] public GameObject bulletParentPrefab;
         public GameObject bulletPrefab;
 
         public GameObject parentNature;
@@ -41,6 +42,7 @@ namespace Ecs.Data
         public GameObject[] rocks;
 
         public GameObject enemyPrefab;
+        public GameObject bulletParent;
 
         public Sprite GetSpriteByItemType(ItemType? type) => type switch
         {

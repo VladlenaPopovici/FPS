@@ -70,7 +70,6 @@ namespace Ecs
 
 
                 var chest = Object.Instantiate(_staticData.chestPrefab, position, rotation, parentChest.transform);
-                
                 CheckForCollision(chest);
                 
                 var chestEntity = _world.NewEntity();
@@ -79,7 +78,7 @@ namespace Ecs
                 chestEntity.Get<InventoryTag>();
                 chestEntity.Get<InteractableComponent>() = new InteractableComponent()
                 {
-                    collider = chest.GetComponent<Collider>(),
+                    collider = chest.GetComponent<BoxCollider>(),
                     transform = chest.transform,
                     type = InteractableType.Chest
                 };
@@ -186,17 +185,14 @@ namespace Ecs
                 foreach (var i in interactableFilter)
                 {
                     ref var interactableComponent = ref interactableFilter.Get2(i);
-                    // checks for collision
                     if (!interactableComponent.collider.bounds.Intersects(gameObject.GetComponent<Collider>().bounds))
                         continue;
-                    // Debug.Log("Collision found");
                     hasCollision = true;
                     break;
                 }
 
                 if (!hasCollision)
                 {
-                    // Debug.Log("fixed collision");
                     return;
                 }
 

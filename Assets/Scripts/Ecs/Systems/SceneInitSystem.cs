@@ -48,6 +48,7 @@ namespace Ecs.Systems
         {
             var treeGo = GenerateObject(parentTrees, _staticData.trees);
             CheckForCollision(treeGo);
+
             var treeEntity = _world.NewEntity();
             treeEntity.Get<EnvironmentTag>();
             treeEntity.Get<TreeTag>();
@@ -67,11 +68,12 @@ namespace Ecs.Systems
             plantEntity.Get<EnvironmentTag>();
             plantEntity.Get<PlantTag>();
         }
-        
+
         private void GenerateRock(GameObject parentRocks)
         {
-            var rockGo = GenerateObject(parentRocks, _staticData.rocks);     
+            var rockGo = GenerateObject(parentRocks, _staticData.rocks);
             CheckForCollision(rockGo);
+
             var rockEntity = _world.NewEntity();
             rockEntity.Get<EnvironmentTag>();
             rockEntity.Get<RockTag>();
@@ -88,7 +90,6 @@ namespace Ecs.Systems
         {
             const int numberOfTrees = 15;
             GenerateObjects(parentTrees, numberOfTrees, GenerateTree);
-            
         }
 
         private static void GenerateObjects(GameObject parent, int numberOfObjects, Action<GameObject> generator)
@@ -113,18 +114,20 @@ namespace Ecs.Systems
                 y = Randomizer.GetRandomInRange(Constants.MinAngle, Constants.MaxAngle)
             };
             var rotation = Quaternion.Euler(rotationVector);
-            
+
             return Object.Instantiate(randomPrefab, position, rotation, parentTrees.transform);
         }
-        
-        
+
+
         private void CheckForCollision(GameObject gameObject)
         {
-            var attempts = 0;           
+            var attempts = 0;
 
             while (attempts++ < 50)
-            {         
-                var interactableFilter = (EcsFilter<InteractableTag, InteractableComponent>)_world.GetFilter(typeof(EcsFilter<InteractableTag, InteractableComponent>));
+            {
+                var interactableFilter =
+                    (EcsFilter<InteractableTag, InteractableComponent>)_world.GetFilter(
+                        typeof(EcsFilter<InteractableTag, InteractableComponent>));
 
                 var hasCollision = false;
                 foreach (var i in interactableFilter)

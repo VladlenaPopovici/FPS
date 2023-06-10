@@ -6,7 +6,7 @@ namespace Ecs.Systems
 {
     public sealed class PlayerShootingSystem : IEcsRunSystem
     {
-        private EcsFilter<ButtonHoldComponent> _buttonHoldFilter;
+        private EcsFilter<ShootingButtonTag, ButtonHoldComponent> _buttonHoldFilter;
         private EcsFilter<PlayerTag, WeaponComponent> _playerWeaponFilter;
         private EcsFilter<PlayerTag, ModelComponent, LookDirectionComponent> _playerFilter;
 
@@ -17,7 +17,7 @@ namespace Ecs.Systems
         {
             foreach (var i in _buttonHoldFilter)
             {
-                ref var buttonHold = ref _buttonHoldFilter.Get1(i);
+                ref var buttonHold = ref _buttonHoldFilter.Get2(i);
 
                 if (buttonHold.isButtonHeld)
                 {
@@ -60,8 +60,6 @@ namespace Ecs.Systems
 
         private void CreateBullet()
         {
-            Debug.Log("fired");
-
             foreach (var i in _playerFilter)
             {
                 ref var modelComponent = ref _playerFilter.Get2(i);
@@ -69,7 +67,7 @@ namespace Ecs.Systems
                     .Find("muzzle")
                     .transform;
 
-                var bulletGo = Object.Instantiate(_staticData.bulletPrefab, transform.position, transform.rotation);
+                var bulletGo = Object.Instantiate(_staticData.bulletPrefab, transform.position, transform.rotation, _staticData.bulletParent.transform);
 
                 var rigidbody = bulletGo.GetComponent<Rigidbody>();
                 
