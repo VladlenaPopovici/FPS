@@ -17,6 +17,7 @@ namespace Ecs
     {
         Chest,
         Tree,
-        Rock
+        Rock,
+        Player
     }
 }

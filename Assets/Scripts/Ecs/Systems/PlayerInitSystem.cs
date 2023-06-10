@@ -49,6 +49,14 @@ namespace Ecs
             ref var modelComponent = ref playerEntity.Get<ModelComponent>();
             modelComponent.modelTransform = playerGo.transform;
 
+            playerEntity.Get<InteractableTag>();
+            playerEntity.Get<InteractableComponent>() = new InteractableComponent()
+            {
+                collider = playerGo.GetComponent<Collider>(),
+                transform = playerGo.transform,
+                type = InteractableType.Player
+            };
+            
             playerEntity.Get<WeaponComponent>() = new WeaponComponent()
             {
                 isFullAuto = true,
