@@ -70,7 +70,9 @@ namespace Ecs
 
 
                 var chest = Object.Instantiate(_staticData.chestPrefab, position, rotation, parentChest.transform);
-
+                
+                CheckForCollision(chest);
+                
                 var chestEntity = _world.NewEntity();
                 chestEntity.Get<ChestTag>();
                 chestEntity.Get<InteractableTag>();
@@ -87,8 +89,10 @@ namespace Ecs
                     scrollView = _chestInventory
                 };
 
-                var inventoryComponent = new InventoryComponent();
-                inventoryComponent.slotComponents = new List<SlotComponent>(_staticData.inventoryCapacity);
+                var inventoryComponent = new InventoryComponent
+                {
+                    slotComponents = new List<SlotComponent>(_staticData.inventoryCapacity)
+                };
                 for (var j = 0; j < _staticData.inventoryCapacity; j++)
                 {
                     inventoryComponent.slotComponents.Add(GenerateRandomSlot());
@@ -168,6 +172,42 @@ namespace Ecs
                 var inventoryScrollView = _inventoryFilter.Get3(i);
                 inventoryScrollView.scrollView.gameObject.SetActive(false);
             }
+        }
+        
+        private void CheckForCollision(GameObject gameObject)
+        {
+            var attempts = 0;           
+
+            while (attempts++ < 100)
+            {         
+                var interactableFilter = (EcsFilter<InteractableTag, InteractableComponent>)_world.GetFilter(typeof(EcsFilter<InteractableTag, InteractableComponent>));
+
+                var hasCollision = false;
+                foreach (var i in interactableFilter)
+                {
+                    ref var interactableComponent = ref interactableFilter.Get2(i);
+                    // checks for collision
+                    if (!interactableComponent.collider.bounds.Intersects(gameObject.GetComponent<Collider>().bounds))
+                        continue;
+                    // Debug.Log("Collision found");
+                    hasCollision = true;
+                    break;
+                }
+
+                if (!hasCollision)
+                {
+                    // Debug.Log("fixed collision");
+                    return;
+                }
+
+                gameObject.transform.position = new Vector3()
+                {
+                    x = Randomizer.GetRandomInRange(MinX, MaxX),
+                    z = Randomizer.GetRandomInRange(MinZ, MaxZ),
+                    y = 0.3f
+                };
+            }
+            Debug.Log("couldn't fix collision");
         }
     }
 }

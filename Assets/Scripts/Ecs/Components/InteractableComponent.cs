@@ -16,5 +16,7 @@ namespace Ecs
     public enum InteractableType
     {
         Chest,
+        Tree,
+        Rock
     }
 }
