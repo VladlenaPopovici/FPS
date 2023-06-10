@@ -6,18 +6,21 @@ using Utils;
 
 namespace Ecs.Systems
 {
-    public sealed class PlayerJumpSystem : IEcsInitSystem
+    public sealed class PlayerJumpInitSystem : IEcsInitSystem
     {
         private EcsFilter<PlayerComponent, JumpComponent> _jumpFilter;
-        private readonly EcsFilter<ModelComponent, MovableComponent, DirectionComponent> movableFilter = null;
+        private EcsFilter<ModelComponent, MovableComponent, DirectionComponent> movableFilter;
+
         private EcsWorld _world;
         private StaticData _staticData;
+
         private Button _jumpButton;
 
         public void Init()
         {
             _jumpButton = Object.Instantiate(_staticData.jumpButtonPrefab, Constants.buttonsPanel);
             var jumpEntity = _world.NewEntity();
+            jumpEntity.Get<JumpTag>();
             jumpEntity.Get<ButtonComponent>() = new ButtonComponent()
             {
                 button = _jumpButton,

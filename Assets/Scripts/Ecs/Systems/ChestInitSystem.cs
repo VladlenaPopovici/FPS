@@ -26,10 +26,11 @@ namespace Ecs
         private StaticData _staticData;
         private ScrollRect _chestInventory;
         private Button _openChestButton;
+
         public void Init()
         {
             _chestInventory = Object.Instantiate(_staticData.chestInventoryPrefab, Constants.buttonsPanel);
-            
+
             var clickedChestSlotEntity = _world.NewEntity();
             var chestSlotMetaData = new SlotMetaData()
             {
@@ -51,7 +52,7 @@ namespace Ecs
                     chestSlotMetaData.isHandled = false;
                 });
             }
-            
+
             var parentChest = Object.Instantiate(_staticData.parentChest);
             for (var i = 0; i < 10; i++)
             {
@@ -71,7 +72,7 @@ namespace Ecs
 
                 var chest = Object.Instantiate(_staticData.chestPrefab, position, rotation, parentChest.transform);
                 CheckForCollision(chest);
-                
+
                 var chestEntity = _world.NewEntity();
                 chestEntity.Get<ChestTag>();
                 chestEntity.Get<InteractableTag>();
@@ -110,7 +111,8 @@ namespace Ecs
             };
             chestButtonEntity.Get<OpenChestButtonTag>();
 
-            _chestInventory.GetComponentsInChildren<Button>().First(button => button.CompareTag("CloseButton")).onClick.AddListener(CloseChestInventory);
+            _chestInventory.GetComponentsInChildren<Button>().First(button => button.CompareTag("CloseButton")).onClick
+                .AddListener(CloseChestInventory);
         }
 
         private SlotComponent GenerateRandomSlot()
@@ -157,6 +159,14 @@ namespace Ecs
                 var inventoryScrollView = _inventoryFilter.Get3(i);
                 inventoryScrollView.scrollView.gameObject.SetActive(true);
             }
+
+            var jumpButtonFilter =
+                (EcsFilter<JumpTag, ButtonComponent>)_world.GetFilter(typeof(EcsFilter<JumpTag, ButtonComponent>));
+            ToggleButton(jumpButtonFilter, false);
+            var shootButtonFilter =
+                (EcsFilter<ShootingButtonTag, ButtonComponent>)_world.GetFilter(
+                    typeof(EcsFilter<ShootingButtonTag, ButtonComponent>));
+            ToggleButton(shootButtonFilter, false);
         }
 
         private void CloseChestInventory()
@@ -171,15 +181,34 @@ namespace Ecs
                 var inventoryScrollView = _inventoryFilter.Get3(i);
                 inventoryScrollView.scrollView.gameObject.SetActive(false);
             }
+
+            var jumpButtonFilter =
+                (EcsFilter<JumpTag, ButtonComponent>)_world.GetFilter(typeof(EcsFilter<JumpTag, ButtonComponent>));
+            ToggleButton(jumpButtonFilter, true);
+            var shootButtonFilter =
+                (EcsFilter<ShootingButtonTag, ButtonComponent>)_world.GetFilter(
+                    typeof(EcsFilter<ShootingButtonTag, ButtonComponent>));
+            ToggleButton(shootButtonFilter, true);
         }
-        
+
+        private void ToggleButton<T>(EcsFilter<T, ButtonComponent> buttonFilter, bool active) where T : struct
+        {
+            foreach (var i in buttonFilter)
+            {
+                ref var buttonComponent = ref buttonFilter.Get2(i);
+                buttonComponent.button.gameObject.SetActive(active);
+            }
+        }
+
         private void CheckForCollision(GameObject gameObject)
         {
-            var attempts = 0;           
+            var attempts = 0;
 
             while (attempts++ < 100)
-            {         
-                var interactableFilter = (EcsFilter<InteractableTag, InteractableComponent>)_world.GetFilter(typeof(EcsFilter<InteractableTag, InteractableComponent>));
+            {
+                var interactableFilter =
+                    (EcsFilter<InteractableTag, InteractableComponent>)_world.GetFilter(
+                        typeof(EcsFilter<InteractableTag, InteractableComponent>));
 
                 var hasCollision = false;
                 foreach (var i in interactableFilter)
@@ -203,6 +232,7 @@ namespace Ecs
                     y = 0.3f
                 };
             }
+
             Debug.Log("couldn't fix collision");
         }
     }

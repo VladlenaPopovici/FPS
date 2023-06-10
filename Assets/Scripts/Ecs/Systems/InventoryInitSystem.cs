@@ -92,6 +92,14 @@ namespace Ecs
             Time.timeScale = 1;
             _inventoryScrollView.gameObject.SetActive(false);
             _inventoryButton.gameObject.SetActive(true);
+            
+        
+            var jumpButtonFilter =
+                (EcsFilter<JumpTag, ButtonComponent>)_world.GetFilter(typeof(EcsFilter<JumpTag, ButtonComponent>));
+            ToggleButton(jumpButtonFilter, true);
+            var shootButtonFilter =
+                (EcsFilter<ShootingButtonTag, ButtonComponent>)_world.GetFilter(typeof(EcsFilter<ShootingButtonTag, ButtonComponent>));
+            ToggleButton(shootButtonFilter, true);
         }
 
         private void OnClickEvent()
@@ -99,6 +107,22 @@ namespace Ecs
             Time.timeScale = 0;
             _inventoryButton.gameObject.SetActive(false);
             _inventoryScrollView.gameObject.SetActive(true);
+            
+            var jumpButtonFilter =
+                (EcsFilter<JumpTag, ButtonComponent>)_world.GetFilter(typeof(EcsFilter<JumpTag, ButtonComponent>));
+            ToggleButton(jumpButtonFilter, false);
+            var shootButtonFilter =
+                (EcsFilter<ShootingButtonTag, ButtonComponent>)_world.GetFilter(typeof(EcsFilter<ShootingButtonTag, ButtonComponent>));
+            ToggleButton(shootButtonFilter, false);
+        }
+
+        private void ToggleButton<T>(EcsFilter<T, ButtonComponent> buttonFilter, bool active) where T : struct
+        {
+            foreach (var i in buttonFilter)
+            {
+                ref var buttonComponent = ref buttonFilter.Get2(i);
+                buttonComponent.button.gameObject.SetActive(active);
+            }
         }
     }
 }
