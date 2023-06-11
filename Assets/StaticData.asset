@@ -34,7 +34,7 @@ MonoBehaviour:
   speedBarImage: {fileID: 8487636021505596770, guid: 35c496e55a1c5fe45927ec4d7f57d053, type: 3}
   jumpButtonPrefab: {fileID: 3355804755896326161, guid: 855e3c1fc18e18544aa1c47f8e91b250, type: 3}
   shootButtonPrefab: {fileID: 5251785439251533432, guid: 55e64c5be27665b45952d348617f363c, type: 3}
-  bulletParent: {fileID: 480349860598159455, guid: 531ca95db6c2a124c8f52404c8c15dee, type: 3}
+  bulletParentPrefab: {fileID: 480349860598159455, guid: 531ca95db6c2a124c8f52404c8c15dee, type: 3}
   bulletPrefab: {fileID: 8257285659191405703, guid: 1d77e163515fa87488f50e480bbe56cf, type: 3}
   parentNature: {fileID: 5852202103167916792, guid: 6cf050405d77c0e4baa40331f36d2a6c, type: 3}
   trees:
@@ -50,4 +50,5 @@ MonoBehaviour:
   rocks:
   - {fileID: 8672003455025440434, guid: aa0ba387f794005419a74fdfff3da4df, type: 3}
   - {fileID: 3133429536943949068, guid: 25cb56d59f80f614b9da0e9a36c48a05, type: 3}
-  enemyPrefab: {fileID: 8356104788382652267, guid: a32b89e71fbd51d4d9b3d270682a75ce, type: 3}
+  enemyPrefab: {fileID: 8356104788382652267, guid: 7f1f31bd9e5b01a4a8c032a6cbef7f01, type: 3}
+  bulletParent: {fileID: 0}

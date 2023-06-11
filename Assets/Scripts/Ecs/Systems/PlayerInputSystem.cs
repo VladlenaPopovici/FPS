@@ -6,10 +6,12 @@ namespace Ecs
     public sealed class PlayerInputSystem : IEcsRunSystem
     {
         private readonly EcsFilter<PlayerTag, DirectionComponent> directionFilter = null;
+        private EcsFilter<MovingMetaDataComponent> _movingFilter;
 
         private float _moveX;
         private float _moveZ;
         private Vector2 _touchStartPosition;
+        private bool _isWalking;
 
         public void Run()
         {
@@ -26,37 +28,47 @@ namespace Ecs
 
         private void SetDirection()
         {
-            if (Input.touchCount <= 0) return;
-
-            for (int i = 0; i < Input.touchCount; i++)
+            foreach (var i in _movingFilter)
             {
-                var touch = Input.GetTouch(i);
+                ref var movingMetaDataComponent = ref _movingFilter.Get1(i);
 
-                switch (touch.phase)
+                if (Input.touchCount <= 0) return;
+
+                for (int j = 0; j < Input.touchCount; j++)
                 {
-                    case TouchPhase.Began:
-                        _touchStartPosition = touch.position;
-                        break;
-                    case TouchPhase.Moved:
-                        var touchDelta = touch.position - _touchStartPosition;
-                        if (touch.position.x < Screen.width / 2)
-                        {
-                            _moveX = touchDelta.x;
-                            _moveZ = touchDelta.y;
-                        }
-                        else
-                        {
+                    var touch = Input.GetTouch(j);
+
+                    switch (touch.phase)
+                    {
+                        case TouchPhase.Began:
+                            _touchStartPosition = touch.position;
+                            _isWalking = true;
+                            break;
+                        case TouchPhase.Moved:
+                            var touchDelta = touch.position - _touchStartPosition;
+                            if (touch.position.x < Screen.width / 2)
+                            {
+                                _moveX = touchDelta.x;
+                                _moveZ = touchDelta.y;
+                            }
+                            else
+                            {
+                                _moveX = 0f;
+                                _moveZ = 0f;
+                            }
+
+                            _isWalking = true;
+                            break;
+                        case TouchPhase.Ended:
+                        case TouchPhase.Canceled:
+                            // Reset movement values
                             _moveX = 0f;
                             _moveZ = 0f;
-                        }
+                            _isWalking = false;
+                            break;
+                    }
 
-                        break;
-                    case TouchPhase.Ended:
-                    case TouchPhase.Canceled:
-                        // Reset movement values
-                        _moveX = 0f;
-                        _moveZ = 0f;
-                        break;
+                    movingMetaDataComponent.isWalking = _isWalking;
                 }
             }
         }
