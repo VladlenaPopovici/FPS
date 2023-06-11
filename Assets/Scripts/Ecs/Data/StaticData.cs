@@ -1,10 +1,7 @@
 ﻿using System.Collections.Generic;
 using Inventory;
 using UnityEngine;
-using UnityEngine.Serialization;
 using UnityEngine.UI;
-using UnityEngine.UIElements;
-using Utils;
 using Button = UnityEngine.UI.Button;
 using Image = UnityEngine.UI.Image;
 

@@ -1,0 +1,17 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8219fd9339fe450e84f415299e1c4939, type: 3}
+  m_Name: MainMenuStaticData
+  m_EditorClassIdentifier: 
+  playButtonPrefab: {fileID: 1584189567056447341, guid: f35f5ee3af2259a4babcbf87b5d1b0b0, type: 3}
+  optionButtonPrefab: {fileID: 6094382380302319649, guid: 9cfe94cd3c5f15648b7fad2f14c487f1, type: 3}
+  quitButtonPrefab: {fileID: 993390313977403140, guid: 31d61093533756a43b1e2b4f78bd8614, type: 3}

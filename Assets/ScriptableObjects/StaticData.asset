@@ -50,5 +50,7 @@ MonoBehaviour:
   rocks:
   - {fileID: 8672003455025440434, guid: aa0ba387f794005419a74fdfff3da4df, type: 3}
   - {fileID: 3133429536943949068, guid: 25cb56d59f80f614b9da0e9a36c48a05, type: 3}
-  enemyPrefab: {fileID: 8356104788382652267, guid: 7f1f31bd9e5b01a4a8c032a6cbef7f01, type: 3}
+  enemyStaticPrefab: {fileID: 8356104788382652267, guid: 7f1f31bd9e5b01a4a8c032a6cbef7f01, type: 3}
+  enemyChasingPrefab: {fileID: 8356104788382652267, guid: e1a9d9bb090d371409de78e47b13f71b, type: 3}
+  chasingEnemy: {fileID: 0}
   bulletParent: {fileID: 0}
