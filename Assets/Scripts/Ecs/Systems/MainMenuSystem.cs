@@ -16,13 +16,13 @@ namespace Ecs.Systems
 
         public void Init()
         {
-            var playButton = Object.Instantiate(_staticData.playButtonPrefab, Constants.buttonsPanel);
+            var playButton = Object.Instantiate(_staticData.playButtonPrefab, ConstantsCanva.buttonsPanel);
             playButton.onClick.AddListener(StartGame);
 
-            var optionButton = Object.Instantiate(_staticData.optionButtonPrefab, Constants.buttonsPanel);
+            var optionButton = Object.Instantiate(_staticData.optionButtonPrefab, ConstantsCanva.buttonsPanel);
             optionButton.onClick.AddListener(OptionMenu);
 
-            var quitButton = Object.Instantiate(_staticData.quitButtonPrefab, Constants.buttonsPanel);
+            var quitButton = Object.Instantiate(_staticData.quitButtonPrefab, ConstantsCanva.buttonsPanel);
             quitButton.onClick.AddListener(QuitGame);
         }
 
