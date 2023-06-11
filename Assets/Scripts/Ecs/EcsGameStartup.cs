@@ -71,6 +71,7 @@ public sealed class EcsGameStartup : MonoBehaviour
             .Add(new BulletMovementSystem())
             .Add(new BulletDestroySystem())
             .Add(new EnemyShootingSystem())
+            .Add(new EnemyMovingSystem())
             ;
     }
 
