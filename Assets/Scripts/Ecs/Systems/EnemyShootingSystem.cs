@@ -61,7 +61,7 @@ namespace Ecs.Systems
             var rotation = transform.rotation;
 
             var bulletGo = Object.Instantiate(_staticData.bulletPrefab, position, rotation,
-                _staticData.bulletParent.transform);
+                _staticData.parentBullet.transform);
 
             var rigidbody = bulletGo.GetComponent<Rigidbody>();
 

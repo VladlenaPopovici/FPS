@@ -114,7 +114,7 @@ namespace Ecs.Systems
                     {
                         var image = scrollViewComponent.ScrollView.content.GetChild(j).GetChild(0)
                             .GetComponent<Image>();
-                        image.overrideSprite = _staticData.emptySprite;
+                        image.overrideSprite = _staticData.emptyImage;
                         scrollViewComponent.ScrollView.content.GetChild(j).GetChild(1).GetComponent<TextMeshProUGUI>()
                             .text = "";
                         continue;

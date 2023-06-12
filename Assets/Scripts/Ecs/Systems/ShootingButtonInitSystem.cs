@@ -16,7 +16,7 @@ namespace Ecs.Systems
         public void Init()
         {
             var bulletParent = Object.Instantiate(_staticData.bulletParentPrefab);
-            _staticData.bulletParent = bulletParent;
+            _staticData.parentBullet = bulletParent;
 
             var button = Object.Instantiate(_staticData.shootButtonPrefab, Constants.ButtonsPanel);
             var eventTrigger = button.GetComponent<EventTrigger>();

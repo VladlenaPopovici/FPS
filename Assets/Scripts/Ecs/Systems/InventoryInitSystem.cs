@@ -81,7 +81,7 @@ namespace Ecs.Systems
         {
             return new SlotComponent
             {
-                ItemSprite = _staticData.emptySprite
+                ItemSprite = _staticData.emptyImage
             };
         }
 

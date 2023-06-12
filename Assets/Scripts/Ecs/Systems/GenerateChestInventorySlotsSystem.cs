@@ -49,7 +49,7 @@ namespace Ecs.Systems
                     if (itemComponent == null)
                     {
                         var image = scrollView.content.GetChild(j).GetChild(0).GetComponent<Image>();
-                        image.overrideSprite = _staticData.emptySprite;
+                        image.overrideSprite = _staticData.emptyImage;
                         scrollView.content.GetChild(j).GetChild(1).GetComponent<TextMeshProUGUI>().text = "";
                         continue;
                     }
@@ -75,7 +75,7 @@ namespace Ecs.Systems
                         if (itemComponent.Quantity == 1)
                         {
                             slot.ItemComponent = null;
-                            slot.ItemSprite = _staticData.emptySprite;
+                            slot.ItemSprite = _staticData.emptyImage;
                             scrollView.content.GetChild(j).GetChild(1).GetComponent<TextMeshProUGUI>().text = "";
                             continue;
                         }
