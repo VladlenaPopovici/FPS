@@ -1,11 +1,11 @@
 ﻿using UnityEngine.UI;
 
-namespace Ecs
+namespace Ecs.Components
 {
     public struct SpeedBarComponent
     {
-        public float fullBarValue;
-        public float decreaseAmount;
-        public Image speedBarImage;
+        public float FullBarValue;
+        public float DecreaseAmount;
+        public Image SpeedBarImage;
     }
 }

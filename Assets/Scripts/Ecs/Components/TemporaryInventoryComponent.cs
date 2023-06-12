@@ -1,9 +1,9 @@
 ﻿using Inventory;
 
-namespace Ecs
+namespace Ecs.Components
 {
     public struct TemporaryInventoryComponent
     {
-        public ItemType? transferedItem;
+        public ItemType? TransferredItem;
     }
 }

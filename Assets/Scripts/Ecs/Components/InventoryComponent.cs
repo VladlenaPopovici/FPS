@@ -1,35 +1,30 @@
 ﻿using System.Collections.Generic;
 using Inventory;
+using JetBrains.Annotations;
 using UnityEngine;
 
-namespace Ecs
+namespace Ecs.Components
 {
     public struct InventoryComponent
     {
-        public List<SlotComponent> slotComponents;
+        public List<SlotComponent> SlotComponents;
 
         public bool IsFitting(ItemType itemType)
         {
-            foreach (var slotComponent in slotComponents)
+            foreach (var slotComponent in SlotComponents)
             {
-                if (slotComponent.itemComponent == null)
-                {
-                    return true;
-                }
+                if (slotComponent.ItemComponent == null) return true;
 
-                if (slotComponent.itemComponent.item.itemType == itemType && itemType != ItemType.Weapon)
-                {
-                    return true;
-                }
+                if (slotComponent.ItemComponent.Item.ItemType == itemType && itemType != ItemType.Weapon) return true;
             }
 
             return false;
         }
     }
-    
+
     public class SlotComponent
     {
-        public ItemComponent? itemComponent;
-        public Sprite itemSprite;
+        [CanBeNull] public ItemComponent ItemComponent;
+        public Sprite ItemSprite;
     }
 }

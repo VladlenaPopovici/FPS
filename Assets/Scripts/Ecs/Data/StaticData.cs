@@ -1,18 +1,13 @@
-﻿using System.Collections.Generic;
-using Inventory;
+﻿using Inventory;
 using UnityEngine;
 using UnityEngine.UI;
-using Button = UnityEngine.UI.Button;
-using Image = UnityEngine.UI.Image;
 
 namespace Ecs.Data
 {
     [CreateAssetMenu]
     public class StaticData : ScriptableObject
     {
-        public List<GameObject> weaponPrefabs;
         public GameObject playerPrefab;
-        public CharacterController characterController;
         public int inventoryCapacity;
         public Button inventoryButtonPrefab;
         public ScrollRect inventoryScrollViewPrefab;
@@ -27,7 +22,7 @@ namespace Ecs.Data
         public Sprite emptySprite;
         public Image healthBarImage;
         public Image speedBarImage;
-        
+
         public Button jumpButtonPrefab;
         public Button shootButtonPrefab;
         public GameObject bulletParentPrefab;
@@ -40,15 +35,18 @@ namespace Ecs.Data
 
         public GameObject enemyPrefab;
         public GameObject enemyChasingPrefab;
-        
+
         public GameObject bulletParent;
 
-        public Sprite GetSpriteByItemType(ItemType? type) => type switch
+        public Sprite GetSpriteByItemType(ItemType? type)
         {
-            ItemType.HealthPotion => hpPotionImage,
-            ItemType.SpeedPotion => speedPotion,
-            ItemType.Weapon => weaponImage,
-            _ => emptySprite,
-        };
+            return type switch
+            {
+                ItemType.HealthPotion => hpPotionImage,
+                ItemType.SpeedPotion => speedPotion,
+                ItemType.Weapon => weaponImage,
+                _ => emptySprite
+            };
+        }
     }
 }

@@ -1,4 +1,6 @@
-﻿using Leopotam.Ecs;
+﻿using Ecs.Components;
+using Ecs.Tags;
+using Leopotam.Ecs;
 using UnityEngine;
 
 namespace Ecs.Systems
@@ -12,11 +14,11 @@ namespace Ecs.Systems
             foreach (var i in _speedBarFilter)
             {
                 ref var speedBarComponent = ref _speedBarFilter.Get2(i);
-                
-                speedBarComponent.fullBarValue -= speedBarComponent.decreaseAmount * Time.deltaTime;
-                speedBarComponent.fullBarValue = Mathf.Clamp(speedBarComponent.fullBarValue, 0f, 1f);
 
-                speedBarComponent.speedBarImage.fillAmount = speedBarComponent.fullBarValue;
+                speedBarComponent.FullBarValue -= speedBarComponent.DecreaseAmount * Time.deltaTime;
+                speedBarComponent.FullBarValue = Mathf.Clamp(speedBarComponent.FullBarValue, 0f, 1f);
+
+                speedBarComponent.SpeedBarImage.fillAmount = speedBarComponent.FullBarValue;
             }
         }
     }

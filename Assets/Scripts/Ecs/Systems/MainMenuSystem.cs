@@ -9,35 +9,34 @@ namespace Ecs.Systems
 {
     public sealed class MainMenuSystem : IEcsInitSystem
     {
-        private EcsFilter<MainMenuButtonComponent> _buttonFilter;
-        private EcsWorld _world;
-        private MainMenuStaticData _staticData;
         private ScrollRect _mainMenuRect;
+        private MainMenuStaticData _staticData;
+        private EcsWorld _world;
 
         public void Init()
         {
-            var playButton = Object.Instantiate(_staticData.playButtonPrefab, ConstantsCanva.buttonsPanel);
+            var playButton = Object.Instantiate(_staticData.playButtonPrefab, ConstantsCanvas.ButtonsPanel);
             playButton.onClick.AddListener(StartGame);
 
-            var optionButton = Object.Instantiate(_staticData.optionButtonPrefab, ConstantsCanva.buttonsPanel);
+            var optionButton = Object.Instantiate(_staticData.optionButtonPrefab, ConstantsCanvas.ButtonsPanel);
             optionButton.onClick.AddListener(OptionMenu);
 
-            var quitButton = Object.Instantiate(_staticData.quitButtonPrefab, ConstantsCanva.buttonsPanel);
+            var quitButton = Object.Instantiate(_staticData.quitButtonPrefab, ConstantsCanvas.ButtonsPanel);
             quitButton.onClick.AddListener(QuitGame);
         }
 
-        private void QuitGame()
+        private static void QuitGame()
         {
             Debug.Log("Quit Game");
             Application.Quit();
         }
 
-        private void OptionMenu()
+        private static void OptionMenu()
         {
             Debug.Log("Open option menu");
         }
 
-        private void StartGame()
+        private static void StartGame()
         {
             SceneManager.LoadScene("SampleScene");
             Debug.Log("startGame");

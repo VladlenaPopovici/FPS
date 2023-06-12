@@ -4,7 +4,7 @@ namespace Ecs
 {
     public struct HealthBarComponent
     {
-        public float hp;
-        public Image hpBar;
+        public float Hp;
+        public Image HpBar;
     }
 }

@@ -1,5 +1,7 @@
 ﻿using System.Linq;
+using Ecs.Components;
 using Ecs.Data;
+using Ecs.Tags;
 using Leopotam.Ecs;
 using UnityEngine;
 
@@ -7,8 +9,8 @@ namespace Ecs.Systems
 {
     public sealed class EnemyInitSystem : IEcsInitSystem
     {
-        private EcsWorld _world;
         private StaticData _staticData;
+        private EcsWorld _world;
 
         public void Init()
         {
@@ -18,15 +20,15 @@ namespace Ecs.Systems
         }
 
         private void GenerateChasingEnemy()
-        { 
+        {
             var enemyGo = Object.Instantiate(_staticData.enemyChasingPrefab, new Vector3(15, 0, 20),
-                new Quaternion(0,180, 0, 1));
+                new Quaternion(0, 180, 0, 1));
             var enemyEntity = _world.NewEntity();
             SetEnemyComponents(ref enemyEntity, enemyGo);
 
-            enemyEntity.Get<AnimatorComponent>() = new AnimatorComponent()
+            enemyEntity.Get<AnimatorComponent>() = new AnimatorComponent
             {
-                animator = enemyGo.GetComponent<Animator>()
+                Animator = enemyGo.GetComponent<Animator>()
             };
             enemyEntity.Get<ChasingEnemyTag>();
         }
@@ -39,32 +41,32 @@ namespace Ecs.Systems
             var enemyEntity = _world.NewEntity();
             SetEnemyComponents(ref enemyEntity, enemyGo);
             ref var buttonHoldComponent = ref enemyEntity.Get<ButtonHoldComponent>();
-            buttonHoldComponent.isButtonHeld = true; // hack so that enemy is always shooting
+            buttonHoldComponent.IsButtonHeld = true; // hack so that enemy is always shooting
         }
-        
+
         private static void SetEnemyComponents(ref EcsEntity enemyEntity, GameObject enemyGo)
         {
             enemyEntity.Get<EnemyTag>();
             var weaponTransform = enemyGo
                 .GetComponentsInChildren<Transform>()
                 .First(x => "Pistol_00".Equals(x.name));
-            enemyEntity.Get<WeaponComponent>() = new WeaponComponent()
+            enemyEntity.Get<WeaponComponent>() = new WeaponComponent
             {
-                isFullAuto = true,
-                fireRate = 1f,
-                weaponTransform = weaponTransform
+                IsFullAuto = true,
+                FireRate = 1f,
+                WeaponTransform = weaponTransform
             };
             Debug.Log(weaponTransform, weaponTransform.gameObject);
-            enemyEntity.Get<ButtonHoldComponent>() = new ButtonHoldComponent()
+            enemyEntity.Get<ButtonHoldComponent>() = new ButtonHoldComponent
             {
-                isButtonHeld = false
+                IsButtonHeld = false
             };
             enemyEntity.Get<InteractableTag>();
-            enemyEntity.Get<InteractableComponent>() = new InteractableComponent()
+            enemyEntity.Get<InteractableComponent>() = new InteractableComponent
             {
                 collider = enemyGo.GetComponent<Collider>(),
                 transform = enemyGo.transform,
-                type = InteractableType.Enemy,
+                type = InteractableType.Enemy
             };
         }
     }

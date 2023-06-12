@@ -1,6 +1,7 @@
-﻿using Voody.UniLeo;
+﻿using Ecs.Tags;
+using Voody.UniLeo;
 
-namespace Ecs
+namespace Ecs.Provider
 {
     public class OpenChestButtonProvider : MonoProvider<OpenChestButtonTag>
     {

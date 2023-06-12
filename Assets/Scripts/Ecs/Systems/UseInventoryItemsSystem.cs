@@ -1,4 +1,7 @@
-﻿using Ecs.Data;
+﻿using System;
+using Ecs.Components;
+using Ecs.Data;
+using Ecs.Tags;
 using Inventory;
 using Leopotam.Ecs;
 using UnityEngine;
@@ -7,9 +10,9 @@ namespace Ecs.Systems
 {
     public sealed class UseInventoryItemsSystem : IEcsRunSystem
     {
-        private EcsFilter<InventoryTag, LatestClickedSlotComponent> _slotClickedFilter;
-        private EcsFilter<PlayerTag, InventoryComponent> _playerInventoryFilter;
         private EcsFilter<PlayerTag, HealthBarComponent> _healthBarFilter;
+        private EcsFilter<PlayerTag, InventoryComponent> _playerInventoryFilter;
+        private EcsFilter<InventoryTag, LatestClickedSlotComponent> _slotClickedFilter;
         private EcsFilter<PlayerTag, SpeedBarComponent> _speedBarFilter;
         private StaticData _staticData;
 
@@ -22,13 +25,14 @@ namespace Ecs.Systems
                 foreach (var j in _playerInventoryFilter)
                 {
                     ref var inventoryComponent = ref _playerInventoryFilter.Get2(j);
-                    for (int k = 0; k < inventoryComponent.slotComponents.Count; k++)
+                    for (var k = 0; k < inventoryComponent.SlotComponents.Count; k++)
                     {
-                        var slot = inventoryComponent.slotComponents[k];
-                        if (!latestClickedSlotComponent.slotMetaData.isHandled && latestClickedSlotComponent.slotMetaData.index == k)
+                        var slot = inventoryComponent.SlotComponents[k];
+                        if (!latestClickedSlotComponent.SlotMetaData.IsHandled &&
+                            latestClickedSlotComponent.SlotMetaData.Index == k)
                         {
-                            latestClickedSlotComponent.slotMetaData.isHandled = true;
-                            var itemType = slot.itemComponent?.item.itemType;
+                            latestClickedSlotComponent.SlotMetaData.IsHandled = true;
+                            var itemType = slot.ItemComponent?.Item.ItemType;
                             switch (itemType)
                             {
                                 case ItemType.HealthPotion:
@@ -40,6 +44,10 @@ namespace Ecs.Systems
                                 case ItemType.Weapon:
                                     // TODO
                                     break;
+                                case null:
+                                    break;
+                                default:
+                                    throw new ArgumentOutOfRangeException();
                             }
                         }
                     }
@@ -52,13 +60,10 @@ namespace Ecs.Systems
             foreach (var i in _speedBarFilter)
             {
                 ref var speedBarComponent = ref _speedBarFilter.Get2(i);
-                speedBarComponent.fullBarValue = 1f;
-                speedBarComponent.decreaseAmount = 0.2f;
-                slot.itemComponent!.quantity--;
-                if (slot.itemComponent.quantity == 0)
-                {
-                    slot.itemComponent = null;
-                }
+                speedBarComponent.FullBarValue = 1f;
+                speedBarComponent.DecreaseAmount = 0.2f;
+                slot.ItemComponent!.Quantity--;
+                if (slot.ItemComponent.Quantity == 0) slot.ItemComponent = null;
             }
         }
 
@@ -67,12 +72,9 @@ namespace Ecs.Systems
             foreach (var i in _healthBarFilter)
             {
                 ref var healthBarComponent = ref _healthBarFilter.Get2(i);
-                healthBarComponent.hp = Mathf.Min(healthBarComponent.hp + 10, 100);
-                slotComponent.itemComponent!.quantity--;
-                if (slotComponent.itemComponent.quantity == 0)
-                {
-                    slotComponent.itemComponent = null;
-                }
+                healthBarComponent.Hp = Mathf.Min(healthBarComponent.Hp + 10, 100);
+                slotComponent.ItemComponent!.Quantity--;
+                if (slotComponent.ItemComponent.Quantity == 0) slotComponent.ItemComponent = null;
             }
         }
     }

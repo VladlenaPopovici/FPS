@@ -1,4 +1,6 @@
 ﻿using System;
+using Ecs.Components;
+using Ecs.Tags;
 using Leopotam.Ecs;
 using UnityEngine;
 
@@ -7,8 +9,8 @@ namespace Ecs.Systems
     public sealed class BulletMovementSystem : IEcsRunSystem
     {
         private EcsFilter<BulletComponent> _bulletFilter;
-        private EcsFilter<InteractableTag, InteractableComponent> _interactableFilter;
         private EcsFilter<PlayerTag, HealthBarComponent> _healthBarFilter;
+        private EcsFilter<InteractableTag, InteractableComponent> _interactableFilter;
 
         private EcsWorld _world;
 
@@ -18,15 +20,10 @@ namespace Ecs.Systems
             {
                 ref var bulletComponent = ref _bulletFilter.Get1(i);
 
-                if (OutOfScene(bulletComponent.gameObject.transform.position))
-                {
-                    bulletComponent.isDespawned = true;
-                }
+                if (OutOfScene(bulletComponent.GameObject.transform.position)) bulletComponent.IsDespawned = true;
 
-                if (HasCollision(bulletComponent.gameObject.GetComponent<Collider>()))
-                {
-                    bulletComponent.isDespawned = true;
-                }
+                if (HasCollision(bulletComponent.GameObject.GetComponent<Collider>()))
+                    bulletComponent.IsDespawned = true;
             }
         }
 
@@ -66,17 +63,17 @@ namespace Ecs.Systems
             foreach (var i in _healthBarFilter)
             {
                 ref var healthBarComponent = ref _healthBarFilter.Get2(i);
-                healthBarComponent.hp -= 5;
+                healthBarComponent.Hp -= 5;
             }
         }
 
-        private void DamageEnemy()
+        private static void DamageEnemy()
         {
             //TODO 
             Debug.Log("Bullet collision with enemy");
         }
 
-        private bool OutOfScene(Vector3 bulletPosition)
+        private static bool OutOfScene(Vector3 bulletPosition)
         {
             return bulletPosition.x is < -50 or > 50 ||
                    bulletPosition.z is < -50 or > 50 ||

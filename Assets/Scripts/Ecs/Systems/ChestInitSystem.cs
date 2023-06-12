@@ -1,16 +1,15 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
+using Ecs.Components;
 using Ecs.Data;
+using Ecs.Tags;
 using Inventory;
 using Leopotam.Ecs;
 using UnityEngine;
-using UnityEngine.EventSystems;
 using UnityEngine.UI;
 using Utils;
-using Object = UnityEngine.Object;
 
-namespace Ecs
+namespace Ecs.Systems
 {
     public sealed class ChestInitSystem : IEcsInitSystem
     {
@@ -20,36 +19,37 @@ namespace Ecs
         private const float MinZ = -50;
         private const float MaxZ = 50;
 
-        private EcsFilter<InventoryTag, ButtonComponent, ScrollViewComponent> _inventoryFilter;
-
-        private EcsWorld _world;
-        private StaticData _staticData;
         private ScrollRect _chestInventory;
+
+        private EcsFilter<InventoryTag, ButtonComponent, ScrollViewComponent> _inventoryFilter;
         private Button _openChestButton;
+
+        private StaticData _staticData;
+        private EcsWorld _world;
 
         public void Init()
         {
-            _chestInventory = Object.Instantiate(_staticData.chestInventoryPrefab, Constants.buttonsPanel);
+            _chestInventory = Object.Instantiate(_staticData.chestInventoryPrefab, Constants.ButtonsPanel);
 
             var clickedChestSlotEntity = _world.NewEntity();
-            var chestSlotMetaData = new SlotMetaData()
+            var chestSlotMetaData = new SlotMetaData
             {
-                isHandled = true
+                IsHandled = true
             };
             clickedChestSlotEntity.Get<ChestTag>();
-            clickedChestSlotEntity.Get<LatestClickedSlotComponent>() = new LatestClickedSlotComponent()
+            clickedChestSlotEntity.Get<LatestClickedSlotComponent>() = new LatestClickedSlotComponent
             {
-                slotMetaData = chestSlotMetaData
+                SlotMetaData = chestSlotMetaData
             };
 
-            for (int i = 0; i < 9; i++)
+            for (var i = 0; i < 9; i++)
             {
                 var slotButton = _chestInventory.content.GetChild(i).GetComponent<Button>();
                 var i1 = i;
                 slotButton.onClick.AddListener(delegate
                 {
-                    chestSlotMetaData.index = (byte)i1;
-                    chestSlotMetaData.isHandled = false;
+                    chestSlotMetaData.Index = (byte)i1;
+                    chestSlotMetaData.IsHandled = false;
                 });
             }
 
@@ -77,37 +77,35 @@ namespace Ecs
                 chestEntity.Get<ChestTag>();
                 chestEntity.Get<InteractableTag>();
                 chestEntity.Get<InventoryTag>();
-                chestEntity.Get<InteractableComponent>() = new InteractableComponent()
+                chestEntity.Get<InteractableComponent>() = new InteractableComponent
                 {
                     collider = chest.GetComponent<BoxCollider>(),
                     transform = chest.transform,
                     type = InteractableType.Chest
                 };
 
-                chestEntity.Get<ScrollViewComponent>() = new ScrollViewComponent()
+                chestEntity.Get<ScrollViewComponent>() = new ScrollViewComponent
                 {
-                    scrollView = _chestInventory
+                    ScrollView = _chestInventory
                 };
 
                 var inventoryComponent = new InventoryComponent
                 {
-                    slotComponents = new List<SlotComponent>(_staticData.inventoryCapacity)
+                    SlotComponents = new List<SlotComponent>(_staticData.inventoryCapacity)
                 };
                 for (var j = 0; j < _staticData.inventoryCapacity; j++)
-                {
-                    inventoryComponent.slotComponents.Add(GenerateRandomSlot());
-                }
+                    inventoryComponent.SlotComponents.Add(GenerateRandomSlot());
 
                 chestEntity.Get<InventoryComponent>() = inventoryComponent;
             }
 
             var chestButtonEntity = _world.NewEntity();
 
-            _openChestButton = Object.Instantiate(_staticData.openChestButtonPrefab, Constants.buttonsPanel);
+            _openChestButton = Object.Instantiate(_staticData.openChestButtonPrefab, Constants.ButtonsPanel);
             _openChestButton.onClick.AddListener(OpenChestInventory);
-            chestButtonEntity.Get<ButtonComponent>() = new ButtonComponent()
+            chestButtonEntity.Get<ButtonComponent>() = new ButtonComponent
             {
-                button = _openChestButton
+                Button = _openChestButton
             };
             chestButtonEntity.Get<OpenChestButtonTag>();
 
@@ -121,28 +119,27 @@ namespace Ecs
 
             if (Randomizer.GetRandomBool())
             {
-                var itemComponent = new ItemComponent();
-                itemComponent.item = GenerateRandomItem();
-                itemComponent.quantity = (byte)Randomizer.GetRandomInRange(1, 5);
-                if (itemComponent.item.itemType == ItemType.Weapon)
+                var itemComponent = new ItemComponent
                 {
-                    itemComponent.quantity = 1;
-                }
+                    Item = GenerateRandomItem(),
+                    Quantity = (byte)Randomizer.GetRandomInRange(1, 5)
+                };
+                if (itemComponent.Item.ItemType == ItemType.Weapon) itemComponent.Quantity = 1;
 
-                slotComponent.itemComponent = itemComponent;
+                slotComponent.ItemComponent = itemComponent;
             }
 
-            slotComponent.itemSprite = _staticData.GetSpriteByItemType(slotComponent.itemComponent?.item.itemType);
+            slotComponent.ItemSprite = _staticData.GetSpriteByItemType(slotComponent.ItemComponent?.Item.ItemType);
 
             return slotComponent;
         }
 
-        private Item GenerateRandomItem()
+        private static Item GenerateRandomItem()
         {
             var itemType = Randomizer.GetRandomEnumValue<ItemType>();
             var item = new Item
             {
-                itemType = itemType,
+                ItemType = itemType
             };
             return item;
         }
@@ -155,9 +152,9 @@ namespace Ecs
             foreach (var i in _inventoryFilter)
             {
                 var inventoryButton = _inventoryFilter.Get2(i);
-                inventoryButton.button.gameObject.SetActive(false);
+                inventoryButton.Button.gameObject.SetActive(false);
                 var inventoryScrollView = _inventoryFilter.Get3(i);
-                inventoryScrollView.scrollView.gameObject.SetActive(true);
+                inventoryScrollView.ScrollView.gameObject.SetActive(true);
             }
 
             var jumpButtonFilter =
@@ -177,9 +174,9 @@ namespace Ecs
             foreach (var i in _inventoryFilter)
             {
                 var inventoryButton = _inventoryFilter.Get2(i);
-                inventoryButton.button.gameObject.SetActive(true);
+                inventoryButton.Button.gameObject.SetActive(true);
                 var inventoryScrollView = _inventoryFilter.Get3(i);
-                inventoryScrollView.scrollView.gameObject.SetActive(false);
+                inventoryScrollView.ScrollView.gameObject.SetActive(false);
             }
 
             var jumpButtonFilter =
@@ -196,7 +193,7 @@ namespace Ecs
             foreach (var i in buttonFilter)
             {
                 ref var buttonComponent = ref buttonFilter.Get2(i);
-                buttonComponent.button.gameObject.SetActive(active);
+                buttonComponent.Button.gameObject.SetActive(active);
             }
         }
 
@@ -220,12 +217,9 @@ namespace Ecs
                     break;
                 }
 
-                if (!hasCollision)
-                {
-                    return;
-                }
+                if (!hasCollision) return;
 
-                gameObject.transform.position = new Vector3()
+                gameObject.transform.position = new Vector3
                 {
                     x = Randomizer.GetRandomInRange(MinX, MaxX),
                     z = Randomizer.GetRandomInRange(MinZ, MaxZ),

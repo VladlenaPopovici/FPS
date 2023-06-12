@@ -8,66 +8,59 @@ namespace Ecs
 {
     public sealed class EcsMainMenuStartup : MonoBehaviour
     {
-        private EcsWorld world;
-        private EcsSystems systems;
+        public MainMenuStaticData staticData;
+        private EcsSystems _systems;
+        private EcsWorld _world;
 
-        public MainMenuStaticData _staticData;
-        
-        // Start is called before the first frame update
-        void Start()
+        private void Start()
         {
-            world = new EcsWorld();
-            systems = new EcsSystems(world);
-        
-            systems.ConvertScene();
-        
+            _world = new EcsWorld();
+            _systems = new EcsSystems(_world);
+
+            _systems.ConvertScene();
+
             AddOneFrames();
             AddSystems();
             AddInjections();
 
-            systems.Init();
+            _systems.Init();
+        }
+
+        private void Update()
+        {
+            _systems.Run();
+        }
+
+        private void OnDestroy()
+        {
+            if (_systems == null) return;
+
+            _systems.Destroy();
+            _systems = null;
+
+            _world.Destroy();
+            _world = null;
         }
 
         private void AddInjections()
         {
             var runtimeData = new RuntimeData();
 
-            systems
+            _systems
                 .Inject(runtimeData)
-                .Inject(_staticData)
+                .Inject(staticData)
                 ;
         }
 
-        private void AddOneFrames()
+        private static void AddOneFrames()
         {
-        
         }
 
         private void AddSystems()
         {
-            systems
+            _systems
                 .Add(new MainMenuSystem())
                 ;
-        }
-
-        // Update is called once per frame
-        void Update()
-        {
-            systems.Run();
-        }
-
-        private void OnDestroy()
-        {
-            if (systems == null)
-            {
-                return;
-            }
-        
-            systems.Destroy();
-            systems = null;
-        
-            world.Destroy();
-            world = null;
         }
     }
 }

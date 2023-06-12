@@ -1,7 +1,7 @@
-﻿using UnityEngine;
+﻿using Ecs.Components;
 using Voody.UniLeo;
 
-namespace Ecs
+namespace Ecs.Provider
 {
     public class InteractableProvider : MonoProvider<InteractableComponent>
 

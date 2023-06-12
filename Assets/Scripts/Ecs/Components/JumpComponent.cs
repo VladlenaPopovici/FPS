@@ -1,11 +1,11 @@
 ﻿using UnityEngine;
 
-namespace Ecs
+namespace Ecs.Components
 {
     public struct JumpComponent
     {
-        public float jumpForce;
-        public float gravity;
-        public Vector3 playerVelocity;
+        public float JumpForce;
+        public float Gravity;
+        public Vector3 PlayerVelocity;
     }
 }

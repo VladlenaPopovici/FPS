@@ -1,4 +1,6 @@
-﻿using Ecs.Data;
+﻿using Ecs.Components;
+using Ecs.Data;
+using Ecs.Tags;
 using Leopotam.Ecs;
 using UnityEngine;
 using UnityEngine.EventSystems;
@@ -14,9 +16,9 @@ namespace Ecs.Systems
         public void Init()
         {
             var bulletParent = Object.Instantiate(_staticData.bulletParentPrefab);
-            _staticData.bulletParent = bulletParent; 
+            _staticData.bulletParent = bulletParent;
 
-            var button = Object.Instantiate(_staticData.shootButtonPrefab, Constants.buttonsPanel);
+            var button = Object.Instantiate(_staticData.shootButtonPrefab, Constants.ButtonsPanel);
             var eventTrigger = button.GetComponent<EventTrigger>();
 
             // Create the tap event trigger
@@ -27,9 +29,9 @@ namespace Ecs.Systems
 
             var shootButtonEntity = _world.NewEntity();
             shootButtonEntity.Get<ShootingButtonTag>();
-            shootButtonEntity.Get<ButtonComponent>() = new ButtonComponent()
+            shootButtonEntity.Get<ButtonComponent>() = new ButtonComponent
             {
-                button = button
+                Button = button
             };
             shootButtonEntity.Get<ButtonHoldComponent>() = new ButtonHoldComponent();
         }
@@ -61,9 +63,9 @@ namespace Ecs.Systems
             foreach (var i in buttonHoldFilter)
             {
                 ref var buttonHold = ref buttonHoldFilter.Get1(i);
-                buttonHold.isButtonHeld = true;
-                buttonHold.isButtonReleased = false;
-                buttonHold.holdTimer = 0f;
+                buttonHold.IsButtonHeld = true;
+                buttonHold.IsButtonReleased = false;
+                buttonHold.HoldTimer = 0f;
             }
         }
 
@@ -74,8 +76,8 @@ namespace Ecs.Systems
             foreach (var i in buttonHoldFilter)
             {
                 ref var buttonHold = ref buttonHoldFilter.Get1(i);
-                buttonHold.isButtonHeld = false;
-                buttonHold.isButtonReleased = true;
+                buttonHold.IsButtonHeld = false;
+                buttonHold.IsButtonReleased = true;
             }
         }
     }

@@ -1,10 +1,10 @@
 ﻿using UnityEngine;
 
-namespace Ecs
+namespace Ecs.Components
 {
     public struct BulletComponent
     {
-        public GameObject gameObject;
-        public bool isDespawned;
+        public GameObject GameObject;
+        public bool IsDespawned;
     }
 }

@@ -1,10 +1,9 @@
 ﻿using System;
 
-namespace Ecs
+namespace Ecs.Tags
 {
     [Serializable]
     public struct InventoryTag
     {
-        
     }
 }

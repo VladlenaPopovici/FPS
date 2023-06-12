@@ -1,12 +1,9 @@
-﻿using UnityEngine;
-using UnityEngine.UI;
-
-namespace Ecs
+﻿namespace Ecs.Components
 {
     public struct ButtonHoldComponent
     {
-        public float holdTimer;
-        public bool isButtonHeld;
-        public bool isButtonReleased;
+        public float HoldTimer;
+        public bool IsButtonHeld;
+        public bool IsButtonReleased;
     }
 }

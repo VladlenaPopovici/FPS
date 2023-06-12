@@ -1,4 +1,5 @@
-﻿using Leopotam.Ecs;
+﻿using Ecs.Components;
+using Leopotam.Ecs;
 using UnityEngine;
 
 namespace Ecs.Systems
@@ -13,16 +14,16 @@ namespace Ecs.Systems
             {
                 var bulletComponent = _bulletFilter.Get1(i);
 
-                if (!bulletComponent.isDespawned) continue;
-                
+                if (!bulletComponent.IsDespawned) continue;
+
                 DestroyAnimation();
-                Object.Destroy(bulletComponent.gameObject);
+                Object.Destroy(bulletComponent.GameObject);
                 var bulletEntity = _bulletFilter.GetEntity(i);
                 bulletEntity.Destroy();
             }
         }
 
-        private void DestroyAnimation()
+        private static void DestroyAnimation()
         {
             // TODO add animation
         }
