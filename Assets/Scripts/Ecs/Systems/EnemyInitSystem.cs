@@ -7,15 +7,13 @@ namespace Ecs.Systems
 {
     public sealed class EnemyInitSystem : IEcsInitSystem
     {
-        private EcsFilter<AnimatorComponent> _enemyAnimator;
-
         private EcsWorld _world;
         private StaticData _staticData;
 
         public void Init()
         {
-            GenerateStaticShootingEnemy(new Vector3(5, 0, 5));
-            GenerateStaticShootingEnemy(new Vector3(10, 0, 15));
+            GenerateStaticShootingEnemy(new Vector3(5, 0, 5), Quaternion.identity);
+            GenerateStaticShootingEnemy(new Vector3(10, 0, 15), Quaternion.Euler(new Vector3(0, 90)));
             GenerateChasingEnemy();
         }
 
@@ -23,34 +21,43 @@ namespace Ecs.Systems
         { 
             var enemyGo = Object.Instantiate(_staticData.enemyChasingPrefab, new Vector3(15, 0, 20),
                 new Quaternion(0,180, 0, 1));
-            _staticData.chasingEnemy = enemyGo;
             var enemyEntity = _world.NewEntity();
-            enemyEntity.Get<EnemyTag>();
+            SetEnemyComponents(ref enemyEntity, enemyGo);
+
             enemyEntity.Get<AnimatorComponent>() = new AnimatorComponent()
             {
                 animator = enemyGo.GetComponent<Animator>()
             };
+            enemyEntity.Get<ChasingEnemyTag>();
         }
 
-        private void GenerateStaticShootingEnemy(Vector3 position)
+        private void GenerateStaticShootingEnemy(Vector3 position, Quaternion rotation)
         {
             //TODO use static data for position
-            var enemyGo = Object.Instantiate(_staticData.enemyStaticPrefab, position, Quaternion.identity);
-
+            var enemyGo = Object.Instantiate(_staticData.enemyPrefab, position, rotation);
+            Debug.Log(enemyGo);
             var enemyEntity = _world.NewEntity();
+            SetEnemyComponents(ref enemyEntity, enemyGo);
+            ref var buttonHoldComponent = ref enemyEntity.Get<ButtonHoldComponent>();
+            buttonHoldComponent.isButtonHeld = true; // hack so that enemy is always shooting
+        }
+        
+        private static void SetEnemyComponents(ref EcsEntity enemyEntity, GameObject enemyGo)
+        {
             enemyEntity.Get<EnemyTag>();
             var weaponTransform = enemyGo
                 .GetComponentsInChildren<Transform>()
-                .First(x => "mock_gun".Equals(x.name));
+                .First(x => "Pistol_00".Equals(x.name));
             enemyEntity.Get<WeaponComponent>() = new WeaponComponent()
             {
                 isFullAuto = true,
                 fireRate = 1f,
                 weaponTransform = weaponTransform
             };
+            Debug.Log(weaponTransform, weaponTransform.gameObject);
             enemyEntity.Get<ButtonHoldComponent>() = new ButtonHoldComponent()
             {
-                isButtonHeld = true // hack this enemy is always shooting
+                isButtonHeld = false
             };
             enemyEntity.Get<InteractableTag>();
             enemyEntity.Get<InteractableComponent>() = new InteractableComponent()

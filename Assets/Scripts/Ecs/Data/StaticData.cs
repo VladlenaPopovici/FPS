@@ -38,9 +38,8 @@ namespace Ecs.Data
         public GameObject[] plants;
         public GameObject[] rocks;
 
-        public GameObject enemyStaticPrefab;
+        public GameObject enemyPrefab;
         public GameObject enemyChasingPrefab;
-        public GameObject chasingEnemy;
         
         public GameObject bulletParent;
 

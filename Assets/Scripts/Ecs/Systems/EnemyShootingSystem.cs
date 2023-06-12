@@ -6,7 +6,7 @@ namespace Ecs.Systems
 {
     public class EnemyShootingSystem : IEcsRunSystem
     {
-        private EcsFilter<EnemyTag, WeaponComponent, ButtonHoldComponent> _enemyWeaponFilter;
+        private EcsFilter<EnemyTag, WeaponComponent, ButtonHoldComponent, InteractableComponent> _enemyWeaponFilter;
 
         private EcsWorld _world;
         private StaticData _staticData;
@@ -26,7 +26,13 @@ namespace Ecs.Systems
                     if (!HasFireRateUpdated(buttonHold, weapon)) continue;
 
                     var transform = weapon.weaponTransform;
-                    CreateBullet(transform);
+
+                    // ref var interactableComponent = ref _enemyWeaponFilter.Get4(i);
+                    var muzzleTransform = transform
+                        .Find("muzzle")
+                        .transform;
+                    
+                    CreateBullet(muzzleTransform);
 
                     weapon.lastFireTimestamp = buttonHold.holdTimer;
                 }
@@ -44,33 +50,26 @@ namespace Ecs.Systems
 
         private static bool HasFireRateUpdated(ButtonHoldComponent buttonHold, WeaponComponent weapon)
         {
-            return (buttonHold.holdTimer - weapon.lastFireTimestamp > weapon.fireRate);
+            return buttonHold.holdTimer - weapon.lastFireTimestamp > weapon.fireRate;
         }
 
         private void CreateBullet(Transform transform)
         {
             var position = transform.position;
+            var rotation = transform.rotation;
 
-            // fixing animation 1
-            var newPosition = new Vector3
-            {
-                x = position.x - 0.47f,
-                y = position.y + .45f,
-                z = position.z + .6f
-            };
-            var bulletGo = Object.Instantiate(_staticData.bulletPrefab, newPosition, transform.rotation, _staticData.bulletParent.transform);
+            var bulletGo = Object.Instantiate(_staticData.bulletPrefab, position, rotation, _staticData.bulletParent.transform);
 
             var rigidbody = bulletGo.GetComponent<Rigidbody>();
-
-            var bulletEntity = _world.NewEntity();
-            bulletEntity.Get<BulletComponent>() = new BulletComponent()
-            {
-                gameObject = bulletGo
-            };
+            //
+            // var bulletEntity = _world.NewEntity();
+            // bulletEntity.Get<BulletComponent>() = new BulletComponent()
+            // {
+            //     gameObject = bulletGo
+            // };
 
             // fixing animation 2
-            var correctForward = Quaternion.identity * Vector3.forward;
-            rigidbody.velocity = correctForward * 5; // 5 - bullet speed
+            rigidbody.velocity = rigidbody.transform.forward * 5f; // 5 - bullet speed
         }
     }
 }
