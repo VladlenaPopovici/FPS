@@ -12,7 +12,7 @@ Step-by-step instructions on how to manually install the game:
 2. Open the project in Unity.
 3. Build and run the game.
 
-To download already compiled app go to [releases](github.com) page
+To download already compiled app go to [releases](https://github.com/VladlenaPopovici/FPS/releases) page
 
 ## Gameplay
 
