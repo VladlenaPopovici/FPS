@@ -1,8 +1,7 @@
 ﻿using System;
 using UnityEngine;
-using UnityEngine.Serialization;
 
-namespace Ecs
+namespace Ecs.Components
 {
     [Serializable]
     public struct MovableComponent

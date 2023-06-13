@@ -1,11 +1,9 @@
-﻿using UnityEngine;
-using UnityEngine.UI;
+﻿using UnityEngine.UI;
 
-namespace Ecs
+namespace Ecs.Components
 {
     public struct ButtonComponent
     {
-        public Button button;
-        public bool isVisible;  // TODO: delete or refactor
+        public Button Button;
     }
 }

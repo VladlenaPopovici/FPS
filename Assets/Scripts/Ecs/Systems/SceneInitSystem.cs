@@ -1,6 +1,8 @@
 ﻿using System;
 using System.Linq;
+using Ecs.Components;
 using Ecs.Data;
+using Ecs.Tags;
 using Leopotam.Ecs;
 using UnityEngine;
 using Utils;
@@ -10,8 +12,8 @@ namespace Ecs.Systems
 {
     public class SceneInitSystem : IEcsInitSystem
     {
-        private EcsWorld _world;
         private StaticData _staticData;
+        private EcsWorld _world;
 
         public void Init()
         {
@@ -53,7 +55,7 @@ namespace Ecs.Systems
             treeEntity.Get<EnvironmentTag>();
             treeEntity.Get<TreeTag>();
             treeEntity.Get<InteractableTag>();
-            treeEntity.Get<InteractableComponent>() = new InteractableComponent()
+            treeEntity.Get<InteractableComponent>() = new InteractableComponent
             {
                 collider = treeGo.GetComponent<Collider>(),
                 transform = treeGo.transform,
@@ -78,7 +80,7 @@ namespace Ecs.Systems
             rockEntity.Get<EnvironmentTag>();
             rockEntity.Get<RockTag>();
             rockEntity.Get<InteractableTag>();
-            rockEntity.Get<InteractableComponent>() = new InteractableComponent()
+            rockEntity.Get<InteractableComponent>() = new InteractableComponent
             {
                 collider = rockGo.GetComponent<Collider>(),
                 transform = rockGo.transform,
@@ -94,10 +96,7 @@ namespace Ecs.Systems
 
         private static void GenerateObjects(GameObject parent, int numberOfObjects, Action<GameObject> generator)
         {
-            for (var i = 0; i < numberOfObjects; i++)
-            {
-                generator.Invoke(parent);
-            }
+            for (var i = 0; i < numberOfObjects; i++) generator.Invoke(parent);
         }
 
         private GameObject GenerateObject(GameObject parentTrees, GameObject[] prefabsArray)
@@ -106,7 +105,7 @@ namespace Ecs.Systems
             var position = new Vector3
             {
                 x = Randomizer.GetRandomInRange(-50, 50),
-                z = Randomizer.GetRandomInRange(-50, 50),
+                z = Randomizer.GetRandomInRange(-50, 50)
             };
 
             var rotationVector = new Vector3
@@ -136,21 +135,18 @@ namespace Ecs.Systems
                     // checks for collision
                     if (!interactableComponent.collider.bounds.Intersects(gameObject.GetComponent<Collider>().bounds))
                         continue;
-                    // Debug.Log("Collision found");
+
                     hasCollision = true;
                     break;
                 }
 
                 if (!hasCollision)
-                {
-                    // Debug.Log("fixed collision");
                     return;
-                }
 
-                gameObject.transform.position = new Vector3()
+                gameObject.transform.position = new Vector3
                 {
                     x = Randomizer.GetRandomInRange(-50, 50),
-                    z = Randomizer.GetRandomInRange(-50, 50),
+                    z = Randomizer.GetRandomInRange(-50, 50)
                 };
             }
 

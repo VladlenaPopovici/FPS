@@ -435,7 +435,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 803a269a106d41e6a0aaddff4ccd39da, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _staticData: {fileID: 11400000, guid: 7d229a05a4a87c648b5c10ca505ce7cd, type: 2}
+  staticData: {fileID: 11400000, guid: 7d229a05a4a87c648b5c10ca505ce7cd, type: 2}
 --- !u!4 &1151481768
 Transform:
   m_ObjectHideFlags: 0

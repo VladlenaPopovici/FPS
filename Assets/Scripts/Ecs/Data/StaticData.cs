@@ -1,54 +1,54 @@
-﻿using System.Collections.Generic;
-using Inventory;
+﻿using Inventory;
 using UnityEngine;
+using UnityEngine.Serialization;
 using UnityEngine.UI;
-using Button = UnityEngine.UI.Button;
-using Image = UnityEngine.UI.Image;
 
 namespace Ecs.Data
 {
     [CreateAssetMenu]
     public class StaticData : ScriptableObject
     {
-        public List<GameObject> weaponPrefabs;
-        public GameObject playerPrefab;
-        public CharacterController characterController;
-        public int inventoryCapacity;
+        [Header("prefabs")] public GameObject playerPrefab;
         public Button inventoryButtonPrefab;
         public ScrollRect inventoryScrollViewPrefab;
         public GameObject chestPrefab;
-        public GameObject parentChest;
-        public LayerMask layerMask;
         public Button openChestButtonPrefab;
         public ScrollRect chestInventoryPrefab;
-        public Sprite hpPotionImage;
-        public Sprite speedPotion;
-        public Sprite weaponImage;
-        public Sprite emptySprite;
-        public Image healthBarImage;
-        public Image speedBarImage;
-        
         public Button jumpButtonPrefab;
         public Button shootButtonPrefab;
         public GameObject bulletParentPrefab;
         public GameObject bulletPrefab;
+        public GameObject enemyPrefab;
+        public GameObject enemyChasingPrefab;
 
-        public GameObject parentNature;
-        public GameObject[] trees;
+        [Header("configs")] public int inventoryCapacity;
+
+        [Header("ray cast props")] public LayerMask layerMask;
+
+        [Header("sprites")] public Sprite hpPotionImage;
+        public Sprite speedPotionImage;
+        public Sprite weaponImage;
+        public Sprite emptyImage;
+        public Image healthBarImage;
+        public Image speedBarImage;
+
+        [Header("environment")] public GameObject[] trees;
         public GameObject[] plants;
         public GameObject[] rocks;
 
-        public GameObject enemyPrefab;
-        public GameObject enemyChasingPrefab;
-        
-        public GameObject bulletParent;
+        [Header("helper wrapper objects")] public GameObject parentNature;
+        public GameObject parentBullet;
+        public GameObject parentChest;
 
-        public Sprite GetSpriteByItemType(ItemType? type) => type switch
+        public Sprite GetSpriteByItemType(ItemType? type)
         {
-            ItemType.HealthPotion => hpPotionImage,
-            ItemType.SpeedPotion => speedPotion,
-            ItemType.Weapon => weaponImage,
-            _ => emptySprite,
-        };
+            return type switch
+            {
+                ItemType.HealthPotion => hpPotionImage,
+                ItemType.SpeedPotion => speedPotionImage,
+                ItemType.Weapon => weaponImage,
+                _ => emptyImage
+            };
+        }
     }
 }

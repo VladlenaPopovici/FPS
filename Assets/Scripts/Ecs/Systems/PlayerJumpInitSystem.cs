@@ -1,4 +1,6 @@
-﻿using Ecs.Data;
+﻿using Ecs.Components;
+using Ecs.Data;
+using Ecs.Tags;
 using Leopotam.Ecs;
 using UnityEngine;
 using UnityEngine.UI;
@@ -8,23 +10,21 @@ namespace Ecs.Systems
 {
     public sealed class PlayerJumpInitSystem : IEcsInitSystem
     {
-        private EcsFilter<PlayerComponent, JumpComponent> _jumpFilter;
-        private EcsFilter<ModelComponent, MovableComponent, DirectionComponent> movableFilter;
-
-        private EcsWorld _world;
-        private StaticData _staticData;
-
         private Button _jumpButton;
+        private EcsFilter<PlayerComponent, JumpComponent> _jumpFilter;
+        private EcsFilter<ModelComponent, MovableComponent, DirectionComponent> _movableFilter;
+
+        private StaticData _staticData;
+        private EcsWorld _world;
 
         public void Init()
         {
-            _jumpButton = Object.Instantiate(_staticData.jumpButtonPrefab, Constants.buttonsPanel);
+            _jumpButton = Object.Instantiate(_staticData.jumpButtonPrefab, Constants.ButtonsPanel);
             var jumpEntity = _world.NewEntity();
             jumpEntity.Get<JumpTag>();
-            jumpEntity.Get<ButtonComponent>() = new ButtonComponent()
+            jumpEntity.Get<ButtonComponent>() = new ButtonComponent
             {
-                button = _jumpButton,
-                isVisible = true
+                Button = _jumpButton
             };
 
             _jumpButton.onClick.AddListener(Jump);
@@ -35,19 +35,19 @@ namespace Ecs.Systems
             foreach (var j in _jumpFilter)
             {
                 ref var jumpComponent = ref _jumpFilter.Get2(j);
-                foreach (var i in movableFilter)
+                foreach (var i in _movableFilter)
                 {
-                    ref var movableComponent = ref movableFilter.Get2(i);
+                    ref var movableComponent = ref _movableFilter.Get2(i);
                     ref var characterController = ref movableComponent.characterController;
 
-                    jumpComponent.playerVelocity = characterController.transform.position;
+                    jumpComponent.PlayerVelocity = characterController.transform.position;
 
                     if (!characterController.isGrounded) return;
 
-                    jumpComponent.playerVelocity.y +=
-                        Mathf.Sqrt(jumpComponent.jumpForce * -3.0f * jumpComponent.gravity);
+                    jumpComponent.PlayerVelocity.y +=
+                        Mathf.Sqrt(jumpComponent.JumpForce * -3.0f * jumpComponent.Gravity);
 
-                    characterController.Move(jumpComponent.playerVelocity * 10 * Time.deltaTime);
+                    characterController.Move(jumpComponent.PlayerVelocity * 10 * Time.deltaTime);
                 }
             }
         }

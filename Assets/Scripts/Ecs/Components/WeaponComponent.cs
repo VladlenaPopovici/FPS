@@ -1,13 +1,13 @@
 ﻿using JetBrains.Annotations;
 using UnityEngine;
 
-namespace Ecs
+namespace Ecs.Components
 {
     public struct WeaponComponent
     {
-        public bool isFullAuto;
-        public float? fireRate;
-        public float lastFireTimestamp;
-        [CanBeNull] public Transform weaponTransform;
+        public bool IsFullAuto;
+        public float? FireRate;
+        public float LastFireTimestamp;
+        [CanBeNull] public Transform WeaponTransform;
     }
 }

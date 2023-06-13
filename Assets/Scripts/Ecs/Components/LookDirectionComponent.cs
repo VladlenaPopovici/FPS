@@ -1,7 +1,7 @@
 ﻿using System;
 using UnityEngine;
 
-namespace Ecs
+namespace Ecs.Components
 {
     [Serializable]
     public struct LookDirectionComponent

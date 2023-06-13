@@ -1,9 +1,6 @@
-﻿using UnityEngine;
-
-namespace Ecs
+﻿namespace Ecs.Components
 {
     public struct PlayerComponent
     {
-        public CharacterController PlayerCharacterController;
     }
 }

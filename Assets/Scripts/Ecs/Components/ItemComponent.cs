@@ -1,10 +1,10 @@
 ﻿using Inventory;
 
-namespace Ecs
+namespace Ecs.Components
 {
     public class ItemComponent
     {
-        public Item item;
-        public byte quantity;
+        public Item Item;
+        public byte Quantity;
     }
 }

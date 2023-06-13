@@ -1,23 +1,26 @@
-﻿using Leopotam.Ecs;
+﻿using System;
+using Ecs.Components;
+using Ecs.Tags;
+using Leopotam.Ecs;
 using UnityEngine;
 
-namespace Ecs
+namespace Ecs.Systems
 {
     public sealed class PlayerRightInputSystem : IEcsRunSystem
     {
-        private readonly EcsFilter<PlayerTag, LookDirectionComponent> lookFilter = null;
-        private Vector2 _touchStartPosition;
         private float _axisX;
         private float _axisY;
+        private EcsFilter<PlayerTag, LookDirectionComponent> _lookFilter;
+        private Vector2 _touchStartPosition;
 
         public void Run()
         {
             GetAxis();
             ClampAxis();
 
-            foreach (var i in lookFilter)
+            foreach (var i in _lookFilter)
             {
-                ref var lookDirection = ref lookFilter.Get2(i);
+                ref var lookDirection = ref _lookFilter.Get2(i);
                 ref var direction = ref lookDirection.direction;
 
                 direction.x = _axisX;
@@ -34,7 +37,7 @@ namespace Ecs
         {
             if (Input.touchCount <= 0) return;
 
-            for (int i = 0; i < Input.touchCount; i++)
+            for (var i = 0; i < Input.touchCount; i++)
             {
                 var touch = Input.GetTouch(i);
 
@@ -52,6 +55,12 @@ namespace Ecs
                         }
 
                         break;
+                    case TouchPhase.Stationary:
+                    case TouchPhase.Ended:
+                    case TouchPhase.Canceled:
+                        break;
+                    default:
+                        throw new ArgumentOutOfRangeException();
                 }
             }
         }

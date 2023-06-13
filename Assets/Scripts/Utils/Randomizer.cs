@@ -1,33 +1,32 @@
 ﻿using System;
-using Random = System.Random;
 
 namespace Utils
 {
-    public class Randomizer
+    public static class Randomizer
     {
-        private static Random _random;
-        
+        private static readonly Random Random;
+
         static Randomizer()
         {
-            _random = new Random();
+            Random = new Random();
         }
-        
+
         public static T GetRandomEnumValue<T>() where T : Enum
         {
             var enumValues = (T[])Enum.GetValues(typeof(T));
-            var randomIndex = _random.Next(0, enumValues.Length);
+            var randomIndex = Random.Next(0, enumValues.Length);
 
             return enumValues[randomIndex];
         }
 
         public static T GetRandomArrayElement<T>(T[] array)
         {
-            return array[_random.Next(array.Length)];
+            return array[Random.Next(array.Length)];
         }
 
         public static float GetRandomInRange(float min, float max)
         {
-            return (float)(_random.NextDouble() * (max - min) + min);
+            return (float)(Random.NextDouble() * (max - min) + min);
         }
 
         public static bool GetRandomBool()
@@ -37,7 +36,7 @@ namespace Utils
 
         private static bool GetRandomBoolWithProbability(byte probability)
         {
-            return _random.Next(1, 100) < probability;
+            return Random.Next(1, 100) < probability;
         }
     }
 }

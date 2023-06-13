@@ -1,12 +1,14 @@
-﻿using Leopotam.Ecs;
+﻿using Ecs.Components;
+using Ecs.Tags;
+using Leopotam.Ecs;
 using UnityEngine;
 
-namespace Ecs
+namespace Ecs.Systems
 {
     public sealed class PlayerLookSystem : IEcsInitSystem, IEcsRunSystem
     {
-        private readonly EcsFilter<PlayerComponent> _playerFilter = null;
         private readonly EcsFilter<PlayerTag, ModelComponent, LookDirectionComponent> _lookFilter = null;
+        private readonly EcsFilter<PlayerComponent> _playerFilter = null;
 
         private Quaternion _startTransformRotation;
 
@@ -30,12 +32,12 @@ namespace Ecs
 
                 var axisX = lookComponent.direction.x;
                 var axisY = lookComponent.direction.y;
-                
-                var rotateX = 
+
+                var rotateX =
                     Quaternion.AngleAxis(axisX, Vector3.up * Time.deltaTime * lookComponent.mouseSensitivity);
-                var rotateY = 
+                var rotateY =
                     Quaternion.AngleAxis(axisY, Vector3.right * Time.deltaTime * lookComponent.mouseSensitivity);
-                
+
                 model.modelTransform.rotation = _startTransformRotation * rotateX;
                 lookComponent.cameraTransform.rotation = model.modelTransform.rotation * rotateY;
             }

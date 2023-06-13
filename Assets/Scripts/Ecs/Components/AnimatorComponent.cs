@@ -1,9 +1,9 @@
 ﻿using UnityEngine;
 
-namespace Ecs
+namespace Ecs.Components
 {
     public struct AnimatorComponent
     {
-        public Animator animator;
+        public Animator Animator;
     }
 }

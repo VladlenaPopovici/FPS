@@ -1,9 +1,9 @@
-﻿using Ecs.Data;
+﻿using Ecs.Components;
+using Ecs.Data;
+using Ecs.Tags;
 using Inventory;
 using Leopotam.Ecs;
 using TMPro;
-using Unity.VisualScripting;
-using UnityEngine;
 using UnityEngine.UI;
 
 namespace Ecs.Systems
@@ -14,10 +14,10 @@ namespace Ecs.Systems
             _chestInventoryFilter;
 
         private EcsFilter<ChestTag, LatestClickedSlotComponent> _latestClickedChestSlotFilter;
-        private EcsFilter<TemporaryInventoryComponent> _temporaryInventoryFilter;
         private EcsFilter<PlayerTag, InventoryTag, InventoryComponent> _playerInventoryFilter;
 
         private StaticData _staticData;
+        private EcsFilter<TemporaryInventoryComponent> _temporaryInventoryFilter;
 
         public void Run()
         {
@@ -26,7 +26,7 @@ namespace Ecs.Systems
             foreach (var i in _latestClickedChestSlotFilter)
             {
                 ref var latestClickedSlotComponent = ref _latestClickedChestSlotFilter.Get2(i);
-                slotMetaData = latestClickedSlotComponent.slotMetaData;
+                slotMetaData = latestClickedSlotComponent.SlotMetaData;
             }
 
             foreach (var i in _chestInventoryFilter)
@@ -37,65 +37,67 @@ namespace Ecs.Systems
                 if (!IsChestOpened(_chestInventoryFilter.Get4(i))) continue;
 
                 ref var inventoryComponent = ref _chestInventoryFilter.Get3(i);
-                ref var scrollView = ref _chestInventoryFilter.Get4(i).scrollView;
+                ref var scrollView = ref _chestInventoryFilter.Get4(i).ScrollView;
 
-                for (var j = 0; j < inventoryComponent.slotComponents.Count; j++)
+                for (var j = 0; j < inventoryComponent.SlotComponents.Count; j++)
                 {
-                    var slot = inventoryComponent.slotComponents[j];
+                    var slot = inventoryComponent.SlotComponents[j];
 
-                    var itemComponent = slot.itemComponent;
-                    
+                    var itemComponent = slot.ItemComponent;
+
                     // empty slot
                     if (itemComponent == null)
                     {
                         var image = scrollView.content.GetChild(j).GetChild(0).GetComponent<Image>();
-                        image.overrideSprite = _staticData.emptySprite;
-                        scrollView.content.GetChild(j).GetChild(1).GetComponent<TextMeshProUGUI>().text = ""; 
+                        image.overrideSprite = _staticData.emptyImage;
+                        scrollView.content.GetChild(j).GetChild(1).GetComponent<TextMeshProUGUI>().text = "";
                         continue;
                     }
 
-                    if (slotMetaData != null && !slotMetaData.isHandled && slotMetaData.index == j)
+                    if (slotMetaData != null && !slotMetaData.IsHandled && slotMetaData.Index == j)
                     {
                         var isFitting = true;
                         foreach (var k in _playerInventoryFilter)
                         {
                             var playerInventoryComponent = _playerInventoryFilter.Get3(k);
-                            isFitting = playerInventoryComponent.IsFitting(itemComponent.item.itemType);
+                            isFitting = playerInventoryComponent.IsFitting(itemComponent.Item.ItemType);
                         }
+
                         if (!isFitting) continue;
-                        
+
                         foreach (var k in _temporaryInventoryFilter)
                         {
                             ref var temporaryInventoryComponent = ref _temporaryInventoryFilter.Get1(k);
-                            temporaryInventoryComponent.transferedItem = itemComponent.item.itemType;
+                            temporaryInventoryComponent.TransferredItem = itemComponent.Item.ItemType;
                         }
-                        slotMetaData.isHandled = true;
-                        if (itemComponent.quantity == 1)
+
+                        slotMetaData.IsHandled = true;
+                        if (itemComponent.Quantity == 1)
                         {
-                            slot.itemComponent = null;
-                            slot.itemSprite = _staticData.emptySprite;
-                            scrollView.content.GetChild(j).GetChild(1).GetComponent<TextMeshProUGUI>().text = "";                            
+                            slot.ItemComponent = null;
+                            slot.ItemSprite = _staticData.emptyImage;
+                            scrollView.content.GetChild(j).GetChild(1).GetComponent<TextMeshProUGUI>().text = "";
                             continue;
                         }
 
-                        itemComponent.quantity--;
+                        itemComponent.Quantity--;
                     }
 
-                    var itemSprite = slot.itemSprite;
+                    var itemSprite = slot.ItemSprite;
                     var targetImage = scrollView.content.GetChild(j).GetChild(0).GetComponent<Image>();
                     targetImage.overrideSprite = itemSprite;
 
-                    if (itemComponent.item.itemType == ItemType.Weapon) continue;
+                    if (itemComponent.Item.ItemType == ItemType.Weapon) continue;
 
                     var textQuantity = scrollView.content.GetChild(j).GetChild(1).GetComponent<TextMeshProUGUI>();
-                    textQuantity.text = itemComponent.quantity.ToString();
+                    textQuantity.text = itemComponent.Quantity.ToString();
                 }
             }
         }
 
         private static bool IsChestOpened(ScrollViewComponent chestScrollView)
         {
-            return chestScrollView.scrollView.IsActive();
+            return chestScrollView.ScrollView.IsActive();
         }
     }
 }

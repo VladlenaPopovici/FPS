@@ -1,4 +1,6 @@
-﻿using Ecs.Data;
+﻿using Ecs.Components;
+using Ecs.Data;
+using Ecs.Tags;
 using Leopotam.Ecs;
 using UnityEngine;
 
@@ -7,9 +9,9 @@ namespace Ecs.Systems
     public class EnemyShootingSystem : IEcsRunSystem
     {
         private EcsFilter<EnemyTag, WeaponComponent, ButtonHoldComponent, InteractableComponent> _enemyWeaponFilter;
+        private StaticData _staticData;
 
         private EcsWorld _world;
-        private StaticData _staticData;
 
         public void Run()
         {
@@ -17,40 +19,40 @@ namespace Ecs.Systems
             {
                 ref var buttonHold = ref _enemyWeaponFilter.Get3(i);
 
-                if (buttonHold.isButtonHeld)
+                if (buttonHold.IsButtonHeld)
                 {
-                    buttonHold.holdTimer += Time.deltaTime;
+                    buttonHold.HoldTimer += Time.deltaTime;
 
                     ref var weapon = ref _enemyWeaponFilter.Get2(i);
 
                     if (!HasFireRateUpdated(buttonHold, weapon)) continue;
 
-                    var transform = weapon.weaponTransform;
+                    var transform = weapon.WeaponTransform;
 
                     // ref var interactableComponent = ref _enemyWeaponFilter.Get4(i);
                     var muzzleTransform = transform
                         .Find("muzzle")
                         .transform;
-                    
+
                     CreateBullet(muzzleTransform);
 
-                    weapon.lastFireTimestamp = buttonHold.holdTimer;
+                    weapon.LastFireTimestamp = buttonHold.HoldTimer;
                 }
-                else if (buttonHold.isButtonReleased)
+                else if (buttonHold.IsButtonReleased)
                 {
                     // Reset the hold timer and release state
-                    buttonHold.holdTimer = 0f;
-                    buttonHold.isButtonReleased = false;
+                    buttonHold.HoldTimer = 0f;
+                    buttonHold.IsButtonReleased = false;
 
                     ref var weapon = ref _enemyWeaponFilter.Get2(i);
-                    weapon.lastFireTimestamp = 0;
+                    weapon.LastFireTimestamp = 0;
                 }
             }
         }
 
         private static bool HasFireRateUpdated(ButtonHoldComponent buttonHold, WeaponComponent weapon)
         {
-            return buttonHold.holdTimer - weapon.lastFireTimestamp > weapon.fireRate;
+            return buttonHold.HoldTimer - weapon.LastFireTimestamp > weapon.FireRate;
         }
 
         private void CreateBullet(Transform transform)
@@ -58,17 +60,17 @@ namespace Ecs.Systems
             var position = transform.position;
             var rotation = transform.rotation;
 
-            var bulletGo = Object.Instantiate(_staticData.bulletPrefab, position, rotation, _staticData.bulletParent.transform);
+            var bulletGo = Object.Instantiate(_staticData.bulletPrefab, position, rotation,
+                _staticData.parentBullet.transform);
 
             var rigidbody = bulletGo.GetComponent<Rigidbody>();
-            //
-            // var bulletEntity = _world.NewEntity();
-            // bulletEntity.Get<BulletComponent>() = new BulletComponent()
-            // {
-            //     gameObject = bulletGo
-            // };
 
-            // fixing animation 2
+            var bulletEntity = _world.NewEntity();
+            bulletEntity.Get<BulletComponent>() = new BulletComponent
+            {
+                GameObject = bulletGo
+            };
+
             rigidbody.velocity = rigidbody.transform.forward * 5f; // 5 - bullet speed
         }
     }

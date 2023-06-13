@@ -1,10 +1,8 @@
-﻿using UnityEngine;
-
-namespace Inventory
+﻿namespace Inventory
 {
     public class Item
     {
-        public ItemType itemType;
+        public ItemType ItemType;
     }
 
     public enum ItemType

@@ -1,7 +1,6 @@
-﻿namespace Ecs
+﻿namespace Ecs.Tags
 {
     public struct JumpTag
     {
-        
     }
 }

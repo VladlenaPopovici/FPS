@@ -1,11 +1,9 @@
-﻿using UnityEngine;
-using UnityEngine.UI;
+﻿using UnityEngine.UI;
 
-namespace Ecs
+namespace Ecs.Components
 {
     public struct ScrollViewComponent
     {
-        public ScrollRect scrollView;
-        public Button closeButton;
+        public ScrollRect ScrollView;
     }
 }

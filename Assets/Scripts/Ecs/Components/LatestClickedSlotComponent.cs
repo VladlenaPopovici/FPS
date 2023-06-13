@@ -1,13 +1,13 @@
-﻿namespace Ecs
+﻿namespace Ecs.Components
 {
     public struct LatestClickedSlotComponent
     {
-        public SlotMetaData slotMetaData;
+        public SlotMetaData SlotMetaData;
     }
 
     public class SlotMetaData
     {
-        public byte index;
-        public bool isHandled;
+        public byte Index;
+        public bool IsHandled;
     }
 }

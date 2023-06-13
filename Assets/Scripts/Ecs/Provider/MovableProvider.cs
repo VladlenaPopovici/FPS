@@ -1,9 +1,9 @@
-﻿using Voody.UniLeo;
+﻿using Ecs.Components;
+using Voody.UniLeo;
 
-namespace Ecs
+namespace Ecs.Provider
 {
     public class MovableProvider : MonoProvider<MovableComponent>
     {
-        
     }
 }
